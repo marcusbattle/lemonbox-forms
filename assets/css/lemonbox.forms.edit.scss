@@ -1,0 +1,59 @@
+$background-main: #fff;
+
+.form-action,
+.field-action {
+	
+	cursor: pointer;
+	display: inline-block;
+	float: none;
+	padding: 7px 10px;
+	border: 1px solid #CCC;
+
+	&.active {
+		background-color: #333;
+		color: #fff;
+	}
+}
+
+.lemonbox-fields {
+	position: relative;
+	float: none;
+
+	&.edit {
+		background-color: $background-main;
+		border: none;
+
+		li {
+			cursor: pointer;
+
+			&:hover {
+				background-color: darken( $background-main, 10% );
+				color: #fff;
+			}
+
+			&.focus {
+				border: 1px dashed #CCC;
+
+				&:hover {
+					background-color: transparent;
+					color: inherit;
+				}
+
+				* {
+					outline: 0;
+				}
+
+			}
+
+		}
+
+		.field-viewer {
+			width: 300px;
+			background: #333;
+			height: 100%;
+			position: absolute;
+		}
+
+	}
+
+}

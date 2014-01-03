@@ -1,0 +1,139 @@
+$lemonbox-background: #333;
+
+body.lemonbox {
+	
+	#wpcontent {
+		margin-left: 160px;
+	}
+
+	#wpwrap,
+	#wpbody,
+	#wpbody-content {
+		background-color: $lemonbox-background;
+	}
+
+	#adminmenuwrap {
+		height: 100%;
+	}
+
+	ul#adminmenu > li.current > a.current:after {
+		border-right-color: $lemonbox-background;
+	}
+
+}
+
+#lemonbox-menu {
+	width: 100%;
+	height: 60px;
+	background-color: transparent;
+}
+
+#lemonbox-forms {
+	padding-left: 15px;
+}
+
+#field-inspector {
+	
+	position: absolute;
+	width: 350px;
+	right: 0;
+	top: 0;
+	height: 100%;
+}
+
+.lemonbox-fields {
+	
+	background-color: #eee;
+	border: 1px solid #CCC;
+	padding: 20px;
+	width: 400px;
+
+	* {
+		-webkit-box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    box-sizing: border-box;
+	}
+
+	li {
+		display: block;
+		padding: 10px 15px;
+		background-color: transparent;
+
+		&.no-label label {
+			display: none;
+		}
+
+		&.credit-card {
+
+			input[name="card_number"] {
+                width: 100%;
+            }
+
+		}
+
+		&.checkbox {
+
+			input {
+				float: left;
+				width: inherit;
+				margin-right: 7px;
+			}
+
+			label {
+				margin: 0;
+			}
+
+		}
+	}
+
+	h2, p {
+		margin: 0;
+		padding: 0;
+	}
+
+	input,
+    select,
+    textarea {
+        display: block;
+        border: none;
+        padding: 10px;
+        font-family: inherit;
+        font-size: 16px;
+        width: 100%;
+        border-radius: 0;
+        margin: 0 0 4px;
+    }
+
+    label {
+    	margin: 7px 0;
+		font-weight: 500;
+		display: block;
+		font-size: 14px;
+    }
+
+    div.flex {
+        display: -webkit-box;   /* OLD: Safari,  iOS, Android browser, older WebKit browsers.  */
+        display: -moz-box;      /* OLD: Firefox (buggy) */ 
+        display: -ms-flexbox;   /* MID: IE 10 */
+        display: -webkit-flex;  /* NEW, Chrome 21+ */
+        display: box;
+        display: flex;
+
+        input,
+        select,
+        textarea {
+            margin: 0 2px 0 0;
+            -webkit-box-flex: 1;
+            box-flex: 1;
+            flex: 1;
+        }
+
+        input:last-of-type,
+        select:last-of-type,
+        textarea:last-of-type {
+            margin-right: 0;
+        }
+
+    }
+
+}

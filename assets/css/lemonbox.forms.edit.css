@@ -1,0 +1,35 @@
+.form-action,
+.field-action {
+  cursor: pointer;
+  display: inline-block;
+  float: none;
+  padding: 7px 10px;
+  border: 1px solid #CCC; }
+  .form-action.active,
+  .field-action.active {
+    background-color: #333;
+    color: #fff; }
+
+.lemonbox-fields {
+  position: relative;
+  float: none; }
+  .lemonbox-fields.edit {
+    background-color: white;
+    border: none; }
+    .lemonbox-fields.edit li {
+      cursor: pointer; }
+      .lemonbox-fields.edit li:hover {
+        background-color: #e6e6e6;
+        color: #fff; }
+      .lemonbox-fields.edit li.focus {
+        border: 1px dashed #CCC; }
+        .lemonbox-fields.edit li.focus:hover {
+          background-color: transparent;
+          color: inherit; }
+        .lemonbox-fields.edit li.focus * {
+          outline: 0; }
+    .lemonbox-fields.edit .field-viewer {
+      width: 300px;
+      background: #333;
+      height: 100%;
+      position: absolute; }

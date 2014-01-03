@@ -1,0 +1,90 @@
+body.lemonbox #wpcontent {
+  margin-left: 160px; }
+body.lemonbox #wpwrap,
+body.lemonbox #wpbody,
+body.lemonbox #wpbody-content {
+  background-color: #333333; }
+body.lemonbox #adminmenuwrap {
+  height: 100%; }
+body.lemonbox ul#adminmenu > li.current > a.current:after {
+  border-right-color: #333333; }
+
+#lemonbox-menu {
+  width: 100%;
+  height: 60px;
+  background-color: transparent; }
+
+#lemonbox-forms {
+  padding-left: 15px; }
+
+#field-inspector {
+  position: absolute;
+  width: 350px;
+  right: 0;
+  top: 0;
+  height: 100%; }
+
+.lemonbox-fields {
+  background-color: #eee;
+  border: 1px solid #CCC;
+  padding: 20px;
+  width: 400px; }
+  .lemonbox-fields * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box; }
+  .lemonbox-fields li {
+    display: block;
+    padding: 10px 15px;
+    background-color: transparent; }
+    .lemonbox-fields li.no-label label {
+      display: none; }
+    .lemonbox-fields li.credit-card input[name="card_number"] {
+      width: 100%; }
+    .lemonbox-fields li.checkbox input {
+      float: left;
+      width: inherit;
+      margin-right: 7px; }
+    .lemonbox-fields li.checkbox label {
+      margin: 0; }
+  .lemonbox-fields h2, .lemonbox-fields p {
+    margin: 0;
+    padding: 0; }
+  .lemonbox-fields input,
+  .lemonbox-fields select,
+  .lemonbox-fields textarea {
+    display: block;
+    border: none;
+    padding: 10px;
+    font-family: inherit;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 0;
+    margin: 0 0 4px; }
+  .lemonbox-fields label {
+    margin: 7px 0;
+    font-weight: 500;
+    display: block;
+    font-size: 14px; }
+  .lemonbox-fields div.flex {
+    display: -webkit-box;
+    /* OLD: Safari,  iOS, Android browser, older WebKit browsers.  */
+    display: -moz-box;
+    /* OLD: Firefox (buggy) */
+    display: -ms-flexbox;
+    /* MID: IE 10 */
+    display: -webkit-flex;
+    /* NEW, Chrome 21+ */
+    display: box;
+    display: flex; }
+    .lemonbox-fields div.flex input,
+    .lemonbox-fields div.flex select,
+    .lemonbox-fields div.flex textarea {
+      margin: 0 2px 0 0;
+      -webkit-box-flex: 1;
+      box-flex: 1;
+      flex: 1; }
+    .lemonbox-fields div.flex input:last-of-type,
+    .lemonbox-fields div.flex select:last-of-type,
+    .lemonbox-fields div.flex textarea:last-of-type {
+      margin-right: 0; }
