@@ -66,10 +66,23 @@
 					<textarea name="fields[new_field]"></textarea>
 				</li>
 			</button>
+			<button>Dropdown
+				<li class="select dropdown">
+					<label>Dropdown</label>
+					<select name="fields[dropdown]">
+						<option value=""></option>
+					</select>
+				</li>
+			</button>
 			<button>Date
 				<li class="input date">
 					<label>Date</label>
 					<input type="text" name="fields[date]" />
+				</li>
+			</button>
+			<button>Paragraph
+				<li class="text">
+					<p>A short message to share with the viewer</p>
 				</li>
 			</button>
 			<button>
@@ -174,7 +187,7 @@
 					<h4>Product</h4>
 					<select class="product">
 						<option value="0">Select Product</option>
-						<?php foreach( lbox_get_products() as $product ): print_r( $product ); ?>
+						<?php foreach( lbox_get_products() as $product ): ?>
 						<option value="<?php echo $product->ID ?>" data-price="<?php echo $product->price ?>"><?php echo $product->post_title ?></option>
 						<?php endforeach; ?>
 					</select>
@@ -191,17 +204,22 @@
 					<input type="text" class="label" />
 				</li>
 				<li>
-					<h4>Placeholder Text</h4>
-					<input type="text" class="placeholder" />
-				</li>
-				<li>
 					<h4>Field Name</h4>
 					<input type="text" class="field-name" />
 				</li>
 				<li>
-					<a class="field-action delete">Delete Field</a>
+					<h4>Placeholder Text</h4>
+					<input type="text" class="placeholder" />
 				</li>
 			</ul>
+			<ul class="dropdown-settings">
+				<li>
+					<h3>Drop Down Options</h3>
+					<a class="add-option">Add Option</a>
+					<div id="dropdown-creator" class="flex"></div>
+				<li>	
+			</ul>
+			<a class="field-action delete">Delete Field</a>
 		</div>
 		<div id="form-settings">
 			<h3>Form Settings</h3>

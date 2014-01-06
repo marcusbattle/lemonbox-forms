@@ -3,6 +3,7 @@
 	$(document).ready(function(){
 
 		$("#form-inspector").tabs();
+		$('#dropdown-creator > div').sortable();
 
 		$('.lemonbox-fields').addClass('edit');
 
@@ -20,6 +21,7 @@
 			$('.focus').removeClass('focus');
 			$('#field-settings .product-settings').hide();
 			$('#field-settings .general-settings').show();
+			$('#field-settings .dropdown-settings').hide();
 
 			$(this).addClass('focus');
 			$(this).find('label').attr('contenteditable', true);
@@ -38,6 +40,13 @@
 
 				field_type = 'dropdown';
 				$(this).find('label').attr('contenteditable', true);
+				$('#field-settings .dropdown-settings').show();
+
+				$('#dropdown-creator').html('');
+
+				$(this).find('select option').each(function( i, v ){
+					$('#dropdown-creator').append('<div class="option" data-index="' + (i + 1) + '"><input class="option-value" value="' + $(this).val() + '" /><input class="option-text" value="' + $(this).text() + '" /><a class="delete-option">Delete</a></div>');
+				});
 
 			} else if ( $(this).hasClass('textarea') ) {
 
@@ -85,7 +94,7 @@
 
 			} else if ( $(this).hasClass('field-name') ) {
 
-				$('.lemonbox-fields .focus').find('input,textarea').attr( 'name', $(this).val() );
+				$('.lemonbox-fields .focus').find('input,textarea,select').attr( 'name', 'fields[' + $(this).val() + ']' );
 
 			} else if ( $(this).hasClass('form-title') ) {
 
@@ -96,6 +105,8 @@
 				
 				$('.lemonbox-fields input[name="product_id"]').val( $(this).val() );
 				$('.lemonbox-fields .product-title').text( $(this).find(':selected').text() );
+				$('.lemonbox-fields .cost span').text('$' + $(this).find(':selected').data('price') );
+				$('.lemonbox-fields input[name="price"]').val( $(this).find(':selected').data('price') );
 
 			} else if ( $(this).hasClass('max-quantity') ) {
 
@@ -105,6 +116,14 @@
 				for( var x = 1; x < total; x++ ) {
 					$('.lemonbox-fields select[name="quantity"]').append('<option value="' + x + '">' + x + '</option>');
 				}
+
+			} else if ( $(this).hasClass('option-text') ) {
+
+				$('.lemonbox-fields .focus select').find('option:nth-child(' + $(this).parent().data('index') + ')').text( $(this).val() );
+
+			} else if ( $(this).hasClass('option-value') ) {
+
+				$('.lemonbox-fields .focus select').find('option:nth-child(' + $(this).parent().data('index') + ')').val( $(this).val() );
 
 			}
 
@@ -182,8 +201,20 @@
 
 		});
 
-		
+		$('.add-option').on('click', function(){
+			$('.lemonbox-fields .focus select').append('<option></option>');
+			add_option();
+		});
 
+		$(document).on('click', '.delete-option', function(){
+			$('.lemonbox-fields .focus select').find('option:nth-child(' + $(this).parent().data('index') + ')').remove();
+			$(this).parent().remove();
+		});
+
+		function add_option() {
+			var i = $('#dropdown-creator > div').length;
+			$('#dropdown-creator').append('<div class="option" data-index="' + (i + 1) + '"><input class="option-value" /><input class="option-text" /><a class="delete-option">Delete</a></div>');
+		}
 	});
 
 	

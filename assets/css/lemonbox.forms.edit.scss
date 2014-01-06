@@ -74,7 +74,7 @@ h3.form-title {
 	h2 {
 		color: inherit;
 	}
-	
+
 }
 
 
@@ -156,5 +156,33 @@ h3.form-title {
 		}
 
 	}
+
+}
+
+#dropdown-creator {
+	
+	> div {
+	    display: -webkit-box;   /* OLD: Safari,  iOS, Android browser, older WebKit browsers.  */
+	    display: -moz-box;      /* OLD: Firefox (buggy) */ 
+	    display: -ms-flexbox;   /* MID: IE 10 */
+	    display: -webkit-flex;  /* NEW, Chrome 21+ */
+	    display: box;
+	    display: flex;
+    }
+
+    input,
+    select,
+    textarea {
+        margin: 0 4px 0 0;
+        -webkit-box-flex: 1;
+        box-flex: 1;
+        flex: 1;
+    }
+
+    input:last-of-type,
+    select:last-of-type,
+    textarea:last-of-type {
+        margin-right: 0;
+    }
 
 }

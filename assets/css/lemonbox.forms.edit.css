@@ -93,3 +93,26 @@ h3.form-title {
   cursor: pointer; }
   #add-fields button li {
     display: none; }
+
+#dropdown-creator > div {
+  display: -webkit-box;
+  /* OLD: Safari,  iOS, Android browser, older WebKit browsers.  */
+  display: -moz-box;
+  /* OLD: Firefox (buggy) */
+  display: -ms-flexbox;
+  /* MID: IE 10 */
+  display: -webkit-flex;
+  /* NEW, Chrome 21+ */
+  display: box;
+  display: flex; }
+#dropdown-creator input,
+#dropdown-creator select,
+#dropdown-creator textarea {
+  margin: 0 4px 0 0;
+  -webkit-box-flex: 1;
+  box-flex: 1;
+  flex: 1; }
+#dropdown-creator input:last-of-type,
+#dropdown-creator select:last-of-type,
+#dropdown-creator textarea:last-of-type {
+  margin-right: 0; }

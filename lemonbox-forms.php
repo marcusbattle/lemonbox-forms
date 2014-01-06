@@ -157,18 +157,25 @@
 
 			global $wpdb;
 
+			extract( $_POST );
 			extract( $_POST['fields'] );
 
 			$email_to = isset($email) ? $email : '';
 
-			$data = array(
-				'form_id' => $_POST['form_id'],
-				'entry' => serialize($_POST['fields']),
-				'user_id' => get_current_user_id()
-			);
+			if ( isset($form_id) ) {
 
-			if ( $_POST['mode'] != 'preview' ) $wpdb->insert( "{$wpdb->prefix}lemonbox_entries", $data );
+				$data = array(
+					'form_id' => $_POST['form_id'],
+					'entry' => serialize($_POST['fields']),
+					'user_id' => get_current_user_id()
+				);
 
+				if ( isset($product_id) ) echo "make a payment! and submit via test mode";
+
+				if ( $_POST['mode'] != 'preview' ) $wpdb->insert( "{$wpdb->prefix}lemonbox_entries", $data );
+
+			}
+			
 		}
 
 		exit;
