@@ -2,6 +2,9 @@
 	
 	if ( isset($_GET['form_id']) ) {
 		$form = lbox_get_form( $_GET['form_id'] );
+		$form_id = $form->id;
+	} else {
+		$form_id = 0;
 	}
 ?>
 
@@ -23,7 +26,7 @@
 
 	<div id="form-inspector">
 
-		<button class="form-action save-form" data-form-id="1">Save Form</button>
+		<button class="form-action save-form" data-form-id="<?php echo $form_id ?>">Save Form</button>
 		<ul id="form-menu">
 			<li><a href="#add-fields">Add Fields</a></li>
 			<li><a href="#field-settings">Field Settings</a></li>
@@ -114,6 +117,13 @@
 					</select>
 				</li>
 			</button>
+			<?php if ( is_plugin_active( 'lemonbox-shop/lemonbox-shop.php' ) ): ?>
+			<button>Product
+				<li class="product">
+					
+				</li>
+			</button>
+			<?php endif; ?>
 		</div>
 		<div id="field-settings">
 			<h3>Field Settings</h3>
@@ -140,7 +150,7 @@
 			<ul>
 				<li>
 					<h4>Form Name</h4>
-					<input type="text" class="form-name" />
+					<input type="text" class="form-title" />
 				</li>
 			</ul>
 		</div>

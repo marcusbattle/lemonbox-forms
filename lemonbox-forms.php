@@ -100,6 +100,7 @@
 			FROM {$wpdb->prefix}lemonbox_forms AS forms
 			LEFT JOIN {$wpdb->prefix}lemonbox_entries AS entries ON entries.form_id = forms.id
 			LEFT JOIN {$wpdb->prefix}users AS users ON users.ID = forms.form_author
+			GROUP BY forms.id
 		";
 		return $wpdb->get_results($sql);
 
@@ -177,8 +178,21 @@
 
 		global $wpdb;
 
-		$response = $wpdb->update( "{$wpdb->prefix}lemonbox_forms", array( 'fields' => $_POST['html'] ), array( 'id' => $_POST['form_id'] ) );
-		echo $response;
+		if ( $_POST['form_id'] ) {
+
+			$response = $wpdb->update( "{$wpdb->prefix}lemonbox_forms", array( 'fields' => trim($_POST['html']), 'form_title' => $_POST['form_title'] ), array( 'id' => $_POST['form_id'] ) );
+
+		} else {
+
+			$response = $wpdb->insert( "{$wpdb->prefix}lemonbox_forms", array( 
+				'fields' => trim($_POST['html']), 
+				'form_title' => $_POST['form_title'],
+				'form_type' => 'custom',
+				'form_author' => get_current_user_id()
+			) );
+
+		}
+		
 		exit;
 	}
 

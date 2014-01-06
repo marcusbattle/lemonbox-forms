@@ -7,6 +7,7 @@
 		$('.lemonbox-fields.edit').sortable({ items: '> li', cancel: '.lemonbox-fields li.focus *' });
 
 		$('h3.form-title').text( $('input[name="form_title"]').val() );
+		$('#form-settings .form-title').val( $('input[name="form_title"]').val() );
 
 		$(document).on('click', '.lemonbox-fields.edit li', function(){
 			
@@ -76,10 +77,10 @@
 
 				$('.lemonbox-fields .focus').find('input,textarea').attr( 'name', $(this).val() );
 
-			} else if ( $(this).hasClass('form-name') ) {
+			} else if ( $(this).hasClass('form-title') ) {
 
 				$('h3.form-title').text( $(this).val() );
-				$('.lemonbox-fields .focus input[name="form_title"]').val( $(this).val() );
+				$('.lemonbox-fields input[name="form_title"]').val( $(this).val() );
 
 			}
 
@@ -106,6 +107,7 @@
 
 			if ( $(this).hasClass('delete') ) {
 				$('.lemonbox-fields li.focus').remove();
+				$('#form-inspector a[href="#form-settings"]').click();
 			}
 
 		});
@@ -144,7 +146,8 @@
 			  	data: {
 			  		action: 'lemonbox_save_form',
 			  		html: $(form_fields).html(),
-			  		form_id: $(this).data('form-id')
+			  		form_id: $(this).data('form-id'),
+			  		form_title: $('.lemonbox-fields input[name="form_title"]').val()
 			  	}
 			}).done(function( data ) {
 				$(button).text(button_text).removeAttr('disabled');

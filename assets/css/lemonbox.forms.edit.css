@@ -47,7 +47,7 @@ h3.form-title {
 #form-inspector {
   position: fixed;
   width: 500px;
-  right: 0;
+  right: 15px;
   top: 43px;
   height: 100%; }
   #form-inspector #form-menu {
@@ -67,6 +67,8 @@ h3.form-title {
         border: 1px solid transparent; }
         #form-inspector #form-menu li a:hover {
           border-color: inherit; }
+  #form-inspector > div input {
+    width: 100%; }
   #form-inspector h3 {
     color: #fff; }
   #form-inspector h4 {
