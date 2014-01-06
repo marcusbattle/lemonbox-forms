@@ -3,7 +3,7 @@
 	$(document).ready(function(){
 
 		$('.lemonbox-fields li.date input').mask('99/99/9999');
-		$('.lemonbox-fields li.credit-card input[name="card_number"]').mask('9999 9999 9999 9999');
+		$('.lemonbox-fields .credit-card input[name="card_number"]').mask('9999 9999 9999 9999');
 		$('.lemonbox-fields li.zip input').mask('99999');
 
 
@@ -26,6 +26,13 @@
 			});
 
 		});
+
+		$(document).on('change', '.lemonbox-fields .product select[name="quantity"]', function(){
+			var price = $('.product input[name="price"]').val();
+
+			$('.product .cost span').text( '$' + (price * $(this).val() ) );
+		});
+
 	});
 
 })(jQuery);

@@ -44,7 +44,6 @@ h3.form-title {
 
 			&:hover {
 				background-color: darken( $background-main, 10% );
-				color: #fff;
 			}
 
 			&.focus {
@@ -72,13 +71,17 @@ h3.form-title {
 
 	}
 
+	h2 {
+		color: inherit;
+	}
+	
 }
 
 
 #form-inspector {
 	
 	position: fixed;
-	width: 500px;
+	width: 380px;
 	right: 15px;
 	top: 43px;
 	height: 100%;
@@ -126,6 +129,7 @@ h3.form-title {
 	h4 {
 		color: #0074a2;
 		margin: 0 0 10px;
+		clear: both;
 	}
 
 }
@@ -133,9 +137,10 @@ h3.form-title {
 #add-fields {
 
 	button {
+		color: #fff;
 		width: 150px;
-		border: none;
-		background-color: #fff;
+		border: 1px solid #fff;
+		background-color: transparent;
 		outline: none;
 		float: left;
 		line-height: 24px;

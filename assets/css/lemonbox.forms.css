@@ -45,16 +45,22 @@ body.lemonbox * {
     margin-left: 0 !important; }
     .lemonbox-fields > li.no-label label {
       display: none; }
+    .lemonbox-fields > li span {
+      display: block; }
+      .lemonbox-fields > li span.callout {
+        font-size: 24px; }
     .lemonbox-fields > li.credit-card input[name="card_number"] {
       width: 100%; }
+    .lemonbox-fields > li .cost {
+      margin: 14px 0 20px; }
     .lemonbox-fields > li.checkbox input {
       float: left;
       width: inherit;
       margin-right: 7px; }
     .lemonbox-fields > li.checkbox label {
       margin: 0; }
-  .lemonbox-fields h2, .lemonbox-fields p {
-    margin: 0 !important;
+  .lemonbox-fields p {
+    margin: 12px 0 !important;
     padding: 0; }
   .lemonbox-fields .title label {
     font-weight: 200;
@@ -118,7 +124,7 @@ body.lemonbox * {
     .lemonbox-fields div.flex input,
     .lemonbox-fields div.flex select,
     .lemonbox-fields div.flex textarea {
-      margin: 0 2px 0 0;
+      margin: 0 4px 0 0;
       -webkit-box-flex: 1;
       box-flex: 1;
       flex: 1; }

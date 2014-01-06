@@ -167,7 +167,7 @@
 				'user_id' => get_current_user_id()
 			);
 
-			$wpdb->insert( "{$wpdb->prefix}lemonbox_entries", $data );
+			if ( $_POST['mode'] != 'preview' ) $wpdb->insert( "{$wpdb->prefix}lemonbox_entries", $data );
 
 		}
 

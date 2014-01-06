@@ -29,8 +29,7 @@ h3.form-title {
     cursor: pointer;
     padding: 10px; }
     .lemonbox-fields.edit li:hover {
-      background-color: #e6e6e6;
-      color: #fff; }
+      background-color: #e6e6e6; }
     .lemonbox-fields.edit li.focus {
       border: 1px dashed #CCC; }
       .lemonbox-fields.edit li.focus:hover {
@@ -43,10 +42,12 @@ h3.form-title {
     background: #333;
     height: 100%;
     position: absolute; }
+  .lemonbox-fields h2 {
+    color: inherit; }
 
 #form-inspector {
   position: fixed;
-  width: 500px;
+  width: 380px;
   right: 15px;
   top: 43px;
   height: 100%; }
@@ -73,12 +74,14 @@ h3.form-title {
     color: #fff; }
   #form-inspector h4 {
     color: #0074a2;
-    margin: 0 0 10px; }
+    margin: 0 0 10px;
+    clear: both; }
 
 #add-fields button {
+  color: #fff;
   width: 150px;
-  border: none;
-  background-color: #fff;
+  border: 1px solid #fff;
+  background-color: transparent;
   outline: none;
   float: left;
   line-height: 24px;
