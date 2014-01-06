@@ -4,6 +4,10 @@ body.lemonbox #wpwrap,
 body.lemonbox #wpbody,
 body.lemonbox #wpbody-content {
   background-color: #333333; }
+body.lemonbox #wpbody-content {
+  padding: 15px; }
+  body.lemonbox #wpbody-content h2 {
+    color: #fff; }
 body.lemonbox #adminmenuwrap {
   height: 100%; }
 body.lemonbox ul#adminmenu > li.current > a.current:after {
@@ -21,12 +25,7 @@ body.lemonbox * {
 #lemonbox-forms {
   padding-left: 15px; }
 
-#lemonbox-wrapper {
-  padding-left: 15px; }
-  #lemonbox-wrapper form {
-    width: 400px; }
-
-.lemonbox-form {
+#lemonbox-wrapper form {
   width: 400px; }
 
 .lemonbox-fields {
@@ -57,7 +56,7 @@ body.lemonbox * {
   .lemonbox-fields h2, .lemonbox-fields p {
     margin: 0 !important;
     padding: 0; }
-  .lemonbox-fields h2 {
+  .lemonbox-fields .title label {
     font-weight: 200;
     font-size: 20px !important;
     text-transform: uppercase; }
@@ -127,3 +126,23 @@ body.lemonbox * {
     .lemonbox-fields div.flex select:last-of-type,
     .lemonbox-fields div.flex textarea:last-of-type {
       margin-right: 0; }
+
+ul.table {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin-left: 0;
+  text-align: left;
+  display: table;
+  table-layout: fixed; }
+  ul.table > ul {
+    list-style: none;
+    padding: 0;
+    margin-left: 0;
+    width: 100%;
+    display: table-row; }
+  ul.table li {
+    vertical-align: middle;
+    display: table-cell;
+    background-color: #fff;
+    padding: 10px 15px; }

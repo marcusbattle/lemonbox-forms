@@ -2,7 +2,11 @@
 	
 	$(document).ready(function(){
 
+		$('.lemonbox-fields').addClass('edit');
+
 		$('.lemonbox-fields.edit').sortable({ items: '> li', cancel: '.lemonbox-fields li.focus *' });
+
+		$('h3.form-title').text( $('input[name="form_title"]').val() );
 
 		$(document).on('click', '.lemonbox-fields.edit li', function(){
 			
@@ -38,11 +42,46 @@
 
 				field_type = 'checkbox';
 
+			} else if ( $(this).hasClass('submit') ) {
+
+				field_type = 'submit';
+
+			}
+
+			if ( ( field_type != 'title' ) && ( field_type != 'submit' ) ) {
+				var field_name = $(this).find('input,textarea,select').attr('name')
+				field_name = field_name.substring(7,field_name.length-1);
+			} else {
+				field_name = '';
 			}
 
 			$('#form-inspector a[href="#field-settings"]').click();
-			$('#form-inspector .type').text(field_type);
-			$('#form-inspector .placeholder').text(field_type);
+			$('#form-inspector .label').val( $(this).find('label').text() );
+			$('#form-inspector .placeholder').val( $(this).find('input,textarea').attr('placeholder') );
+			$('#form-inspector .field-name').val( field_name );
+
+		});
+	
+		$(document).on('keyup', '#form-inspector input', function(){
+
+			if ( $(this).hasClass('label') ) {
+				
+				$('.lemonbox-fields .focus label').text( $(this).val() );
+
+			} else if ( $(this).hasClass('placeholder') ) {
+				
+				$('.lemonbox-fields .focus').find('input,textarea').attr( 'placeholder', $(this).val() );
+
+			} else if ( $(this).hasClass('field-name') ) {
+
+				$('.lemonbox-fields .focus').find('input,textarea').attr( 'name', $(this).val() );
+
+			} else if ( $(this).hasClass('form-name') ) {
+
+				$('h3.form-title').text( $(this).val() );
+				$('.lemonbox-fields .focus input[name="form_title"]').val( $(this).val() );
+
+			}
 
 		});
 
@@ -81,6 +120,10 @@
 			var field = $(this).find('li').clone();
 			$('.lemonbox-fields li.submit').before(field);
 
+			$('.lemonbox-fields li.date input').mask('99/99/9999');
+			$('.lemonbox-fields li.credit-card input[name="card_number"]').mask('9999 9999 9999 9999');
+			$('.lemonbox-fields li.zip input').mask('99999');
+
 		});
 
 		$('button.save-form').on('click', function(e){
@@ -88,6 +131,7 @@
 
 			var form_fields = $('.lemonbox-fields').parent().clone();
 			$(form_fields).find('.lemonbox-fields').removeClass('edit ui-sortable');
+			$(form_fields).find('*').removeAttr('contenteditable').removeClass('focus');
 
 			var button = $(this);
 			var button_text = $(this).text();

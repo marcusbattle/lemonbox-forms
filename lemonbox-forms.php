@@ -39,9 +39,19 @@
 	}
 
 	function lbox_menu_home() {
+
 		ob_start();
-		include( plugin_dir_path( __FILE__ ) . 'templates/forms-home.php' );
+
+		if ( isset($_GET['action']) && ($_GET['action'] == 'new') ) {
+			include( plugin_dir_path( __FILE__ ) . 'pages/forms-edit.php' );
+		} else if ( isset($_GET['action']) && ($_GET['action'] == 'edit') ) {
+			include( plugin_dir_path( __FILE__ ) . 'pages/forms-edit.php' );
+		} else {
+			include( plugin_dir_path( __FILE__ ) . 'pages/forms-home.php' );
+		}
+
 		ob_flush();
+
 	}
 
 	function lbox_forms_init() {
@@ -82,11 +92,28 @@
 
 	}
 
-	function get_lbox_forms() { 
+	function lbox_get_forms() { 
 		global $wpdb;
 
-		$sql = "SELECT * FROM {$wpdb->prefix}lemonbox_forms";
+		$sql = "
+			SELECT forms.*, COUNT(entries.id) AS entries, users.display_name AS author 
+			FROM {$wpdb->prefix}lemonbox_forms AS forms
+			LEFT JOIN {$wpdb->prefix}lemonbox_entries AS entries ON entries.form_id = forms.id
+			LEFT JOIN {$wpdb->prefix}users AS users ON users.ID = forms.form_author
+		";
 		return $wpdb->get_results($sql);
+
+	}
+
+	function lbox_get_form( $form_id = 0 ) { 
+		global $wpdb;
+
+		$sql = "
+			SELECT forms.*
+			FROM {$wpdb->prefix}lemonbox_forms AS forms
+			WHERE forms.id = $form_id
+		";
+		return $wpdb->get_row($sql);
 
 	}
 

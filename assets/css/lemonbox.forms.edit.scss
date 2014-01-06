@@ -12,10 +12,24 @@ $background-main: #fff;
 	color: #fff;
 	min-width: 90px;
 	margin: 0;
+	text-align: center;
+	text-decoration: none;
 
 	&.active {
 		
 	}
+
+	&.new-form {
+		position: absolute;
+		top: 23px;
+		left: 90px;
+	}
+}
+
+h3.form-title {
+	text-transform: uppercase;
+	color: #eee;
+	font-weight: 300;
 }
 
 .lemonbox-fields {
@@ -99,6 +113,11 @@ $background-main: #fff;
 
 	h3 {
 		color: #fff;
+	}
+
+	h4 {
+		color: #0074a2;
+		margin: 0 0 10px;
 	}
 
 }

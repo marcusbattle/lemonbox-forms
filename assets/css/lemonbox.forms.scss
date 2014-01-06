@@ -12,6 +12,14 @@ body.lemonbox {
 		background-color: $lemonbox-background;
 	}
 
+	#wpbody-content {
+		padding: 15px;
+
+		h2 {
+			color: #fff;
+		}
+	}
+
 	#adminmenuwrap {
 		height: 100%;
 	}
@@ -38,8 +46,6 @@ body.lemonbox {
 }
 
 #lemonbox-wrapper {
-	
-	padding-left: 15px;
 
 	form { 
 		width: 400px;
@@ -48,7 +54,7 @@ body.lemonbox {
 }
 
 .lemonbox-form {
-	width: 400px;	
+	
 }
 
 .lemonbox-fields {
@@ -103,7 +109,7 @@ body.lemonbox {
 		padding: 0;
 	}
 
-	h2 {
+	.title label {
 		font-weight: 200;
 		font-size: 20px !important;
 		text-transform: uppercase;
@@ -185,5 +191,31 @@ body.lemonbox {
         }
 
     }
+
+}
+
+ul.table {
+	width: 100%;
+	list-style: none;
+	padding: 0;
+	margin-left: 0;
+	text-align: left;
+	display: table;
+	table-layout: fixed;
+
+	> ul {
+		list-style: none;
+		padding: 0;
+		margin-left: 0;
+		width: 100%;
+		display: table-row;
+	}
+
+	li {
+		vertical-align: middle;
+		display: table-cell;
+		background-color: #fff;
+		padding: 10px 15px;
+	}
 
 }
