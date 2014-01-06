@@ -34,7 +34,7 @@
 		wp_localize_script( 'lbox-forms-js', 'lemonbox', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	}
 
-	function lbox_forms_settings() {
+	function lemonbox_forms_settings() {
 		add_menu_page( 'LemonBox Forms', 'Forms', 'administrator', 'lemonbox-forms', 'lbox_menu_home', '', 6 );
 	}
 
@@ -170,12 +170,16 @@
 					'user_id' => get_current_user_id()
 				);
 
-				if ( isset($product_id) ) echo "make a payment! and submit via test mode";
+				if ( isset($product_id) ) {
 
-				if ( $_POST['mode'] != 'preview' ) $wpdb->insert( "{$wpdb->prefix}lemonbox_entries", $data );
+					do_action( 'lemonbox_post_payments' );
+
+				}
+
+				// if ( $_POST['mode'] != 'preview' ) $wpdb->insert( "{$wpdb->prefix}lemonbox_entries", $data );
 
 			}
-			
+
 		}
 
 		exit;
@@ -204,7 +208,7 @@
 	}
 
 	add_action( 'init', 'lbox_forms_init' );
-	add_action( 'admin_menu', 'lbox_forms_settings' );
+	add_action( 'admin_menu', 'lemonbox_forms_settings' );
 	add_filter( 'admin_body_class', 'lbox_admin_class' );
 	add_action( 'admin_enqueue_scripts', 'load_lemonbox_forms_admin_assets' );
 	add_action( 'wp_enqueue_scripts', 'load_lemonbox_forms_assets' );

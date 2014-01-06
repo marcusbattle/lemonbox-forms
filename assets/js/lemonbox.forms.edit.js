@@ -23,6 +23,8 @@
 			$('#field-settings .general-settings').show();
 			$('#field-settings .dropdown-settings').hide();
 
+			$('#field-settings input').val('');
+
 			$(this).addClass('focus');
 			$(this).find('label').attr('contenteditable', true);
 
@@ -35,6 +37,7 @@
 
 				field_type = 'text';
 				$(this).find('p').attr('contenteditable', true);
+				$('#field-settings .general-settings').hide();
 
 			} else if ( $(this).hasClass('dropdown') ) {
 
