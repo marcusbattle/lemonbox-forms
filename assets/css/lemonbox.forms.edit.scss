@@ -8,10 +8,13 @@ $background-main: #fff;
 	float: none;
 	padding: 7px 10px;
 	border: 1px solid #CCC;
+	background-color: #333;
+	color: #fff;
+	min-width: 90px;
+	margin: 0;
 
 	&.active {
-		background-color: #333;
-		color: #fff;
+		
 	}
 }
 
@@ -20,11 +23,10 @@ $background-main: #fff;
 	float: none;
 
 	&.edit {
-		background-color: $background-main;
-		border: none;
 
 		li {
 			cursor: pointer;
+			padding: 10px;
 
 			&:hover {
 				background-color: darken( $background-main, 10% );
@@ -52,6 +54,73 @@ $background-main: #fff;
 			background: #333;
 			height: 100%;
 			position: absolute;
+		}
+
+	}
+
+}
+
+
+#form-inspector {
+	
+	position: fixed;
+	width: 500px;
+	right: 0;
+	top: 43px;
+	height: 100%;
+
+	#form-menu {
+		position: absolute;
+		left: 100px;
+		top: 0;
+		margin: 0;
+
+		li {
+			display: inline-block;
+			margin: 0;
+
+			a {
+				text-decoration: none;
+				padding: 0 7px;
+				display: block;
+				line-height: 32px;
+				outline: none;
+				border: 1px solid transparent;
+
+				&:hover {
+					border-color: inherit;
+				}
+
+			}
+
+		}
+		
+	}
+
+	h3 {
+		color: #fff;
+	}
+
+}
+
+#add-fields {
+
+	button {
+		width: 150px;
+		border: none;
+		background-color: #fff;
+		outline: none;
+		float: left;
+		line-height: 24px;
+		width: 0 20px;
+		border-radius: 4px;
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		margin: 4px;
+		cursor: pointer;
+
+		li {
+			display: none;
 		}
 
 	}

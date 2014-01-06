@@ -4,7 +4,7 @@
 
 		$('.lemonbox-fields.edit').sortable({ items: '> li', cancel: '.lemonbox-fields li.focus *' });
 
-		$('.lemonbox-fields.edit li').on('click', function(){
+		$(document).on('click', '.lemonbox-fields.edit li', function(){
 			
 			var field_type = '';
 			var field = '';
@@ -40,8 +40,9 @@
 
 			}
 
-			$('#field-inspector .type').text(field_type);
-			$('#field-inspector .placeholder').text(field_type);
+			$('#form-inspector a[href="#field-settings"]').click();
+			$('#form-inspector .type').text(field_type);
+			$('#form-inspector .placeholder').text(field_type);
 
 		});
 
@@ -73,6 +74,44 @@
 		$('.lemonbox-fields.edit button[type="submit"]').on('click', function(e){
 			e.preventDefault();
 		});
+
+
+		$('#add-fields button').on('click', function(e){
+
+			var field = $(this).find('li').clone();
+			$('.lemonbox-fields li.submit').before(field);
+
+		});
+
+		$('button.save-form').on('click', function(e){
+			e.preventDefault();
+
+			var form_fields = $('.lemonbox-fields').parent().clone();
+			$(form_fields).find('.lemonbox-fields').removeClass('edit ui-sortable');
+
+			var button = $(this);
+			var button_text = $(this).text();
+
+			$(this).attr('disabled','true').text('...');
+
+			$.ajax({
+				type: 'POST',
+			  	url: lemonbox.ajaxurl,
+			  	data: {
+			  		action: 'lemonbox_save_form',
+			  		html: $(form_fields).html(),
+			  		form_id: $(this).data('form-id')
+			  	}
+			}).done(function( data ) {
+				$(button).text(button_text).removeAttr('disabled');
+
+				alert('Done!');
+			});
+
+		});
+
+		$("#form-inspector").tabs();
+
 	});
 
 	

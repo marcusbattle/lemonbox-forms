@@ -4,32 +4,72 @@
   display: inline-block;
   float: none;
   padding: 7px 10px;
-  border: 1px solid #CCC; }
-  .form-action.active,
-  .field-action.active {
-    background-color: #333;
-    color: #fff; }
+  border: 1px solid #CCC;
+  background-color: #333;
+  color: #fff;
+  min-width: 90px;
+  margin: 0; }
 
 .lemonbox-fields {
   position: relative;
   float: none; }
-  .lemonbox-fields.edit {
-    background-color: white;
-    border: none; }
-    .lemonbox-fields.edit li {
-      cursor: pointer; }
-      .lemonbox-fields.edit li:hover {
-        background-color: #e6e6e6;
-        color: #fff; }
-      .lemonbox-fields.edit li.focus {
-        border: 1px dashed #CCC; }
-        .lemonbox-fields.edit li.focus:hover {
-          background-color: transparent;
-          color: inherit; }
-        .lemonbox-fields.edit li.focus * {
-          outline: 0; }
-    .lemonbox-fields.edit .field-viewer {
-      width: 300px;
-      background: #333;
-      height: 100%;
-      position: absolute; }
+  .lemonbox-fields.edit li {
+    cursor: pointer;
+    padding: 10px; }
+    .lemonbox-fields.edit li:hover {
+      background-color: #e6e6e6;
+      color: #fff; }
+    .lemonbox-fields.edit li.focus {
+      border: 1px dashed #CCC; }
+      .lemonbox-fields.edit li.focus:hover {
+        background-color: transparent;
+        color: inherit; }
+      .lemonbox-fields.edit li.focus * {
+        outline: 0; }
+  .lemonbox-fields.edit .field-viewer {
+    width: 300px;
+    background: #333;
+    height: 100%;
+    position: absolute; }
+
+#form-inspector {
+  position: fixed;
+  width: 500px;
+  right: 0;
+  top: 43px;
+  height: 100%; }
+  #form-inspector #form-menu {
+    position: absolute;
+    left: 100px;
+    top: 0;
+    margin: 0; }
+    #form-inspector #form-menu li {
+      display: inline-block;
+      margin: 0; }
+      #form-inspector #form-menu li a {
+        text-decoration: none;
+        padding: 0 7px;
+        display: block;
+        line-height: 32px;
+        outline: none;
+        border: 1px solid transparent; }
+        #form-inspector #form-menu li a:hover {
+          border-color: inherit; }
+  #form-inspector h3 {
+    color: #fff; }
+
+#add-fields button {
+  width: 150px;
+  border: none;
+  background-color: #fff;
+  outline: none;
+  float: left;
+  line-height: 24px;
+  width: 0 20px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  margin: 4px;
+  cursor: pointer; }
+  #add-fields button li {
+    display: none; }

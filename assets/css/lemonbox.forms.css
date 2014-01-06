@@ -8,6 +8,10 @@ body.lemonbox #adminmenuwrap {
   height: 100%; }
 body.lemonbox ul#adminmenu > li.current > a.current:after {
   border-right-color: #333333; }
+body.lemonbox * {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
 
 #lemonbox-menu {
   width: 100%;
@@ -17,39 +21,46 @@ body.lemonbox ul#adminmenu > li.current > a.current:after {
 #lemonbox-forms {
   padding-left: 15px; }
 
-#field-inspector {
-  position: absolute;
-  width: 350px;
-  right: 0;
-  top: 0;
-  height: 100%; }
+#lemonbox-wrapper {
+  padding-left: 15px; }
+  #lemonbox-wrapper form {
+    width: 400px; }
+
+.lemonbox-form {
+  width: 400px; }
 
 .lemonbox-fields {
-  background-color: #eee;
-  border: 1px solid #CCC;
+  background-color: #f4f4f4;
   padding: 20px;
-  width: 400px; }
+  width: 100%;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px; }
   .lemonbox-fields * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box; }
-  .lemonbox-fields li {
+  .lemonbox-fields > li {
     display: block;
-    padding: 10px 15px;
-    background-color: transparent; }
-    .lemonbox-fields li.no-label label {
+    background-color: transparent;
+    margin-left: 0 !important; }
+    .lemonbox-fields > li.no-label label {
       display: none; }
-    .lemonbox-fields li.credit-card input[name="card_number"] {
+    .lemonbox-fields > li.credit-card input[name="card_number"] {
       width: 100%; }
-    .lemonbox-fields li.checkbox input {
+    .lemonbox-fields > li.checkbox input {
       float: left;
       width: inherit;
       margin-right: 7px; }
-    .lemonbox-fields li.checkbox label {
+    .lemonbox-fields > li.checkbox label {
       margin: 0; }
   .lemonbox-fields h2, .lemonbox-fields p {
-    margin: 0;
+    margin: 0 !important;
     padding: 0; }
+  .lemonbox-fields h2 {
+    font-weight: 200;
+    font-size: 20px !important;
+    text-transform: uppercase; }
   .lemonbox-fields input,
   .lemonbox-fields select,
   .lemonbox-fields textarea {
@@ -57,15 +68,43 @@ body.lemonbox ul#adminmenu > li.current > a.current:after {
     border: none;
     padding: 10px;
     font-family: inherit;
-    font-size: 16px;
+    font-size: 14px;
     width: 100%;
     border-radius: 0;
-    margin: 0 0 4px; }
+    margin: 0 0 4px;
+    color: #666;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0px; }
+    .lemonbox-fields input:focus,
+    .lemonbox-fields select:focus,
+    .lemonbox-fields textarea:focus {
+      outline: none;
+      background-color: #555;
+      color: #f4f4f4; }
+  .lemonbox-fields button {
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    width: 100%;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #fff;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: #333;
+    border: none;
+    outline: none; }
+    .lemonbox-fields button:hover {
+      background-image: none;
+      background-color: #555;
+      color: #f4f4f4; }
   .lemonbox-fields label {
     margin: 7px 0;
     font-weight: 500;
     display: block;
-    font-size: 14px; }
+    font-size: 14px;
+    font-weight: 400;
+    color: #888; }
   .lemonbox-fields div.flex {
     display: -webkit-box;
     /* OLD: Safari,  iOS, Android browser, older WebKit browsers.  */

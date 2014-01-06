@@ -1,4 +1,4 @@
-<h2>Forms</h2>
+<!-- <h2>Forms</h2>
 <div id="lemombox-forms">
 	<ul>
 		<?php foreach( get_lbox_forms() as $form ): ?>
@@ -7,7 +7,7 @@
 		</li>
 		<?php endforeach ?>
 	</ul>
-</div>
+</div> -->
 
 <div id="lemonbox-wrapper">
 	<!-- <a class="form-action preview">Preview</a>
@@ -103,19 +103,112 @@
 				<label>Why did you choose your major and what do you plan to do with your degree?</label>
 				<textarea name="fields[education_bio]"></textarea>
 			</li>
-			<li>
+			<li class="submit">
 				<button type="submit">Submit</button>
 			</li>
 		</ul>
 	</form>
 
-	<div id="field-inspector">
-		<ul>
-			<li>Type: <span class="type"></span></li>
-			<li>Placeholder Text: <span class="placeholder" contenteditable="true"></span></li>
-			<li>
-				<a class="field-action delete">Delete Field</a>
-			</li>
+	<div id="form-inspector">
+
+		<button class="form-action save-form" data-form-id="1">Save Form</button>
+		<ul id="form-menu">
+			<li><a href="#add-fields">Add Fields</a></li>
+			<li><a href="#field-settings">Field Settings</a></li>
+			<li><a href="#form-settings">Form Settings</a></li>
 		</ul>
+		<div id="add-fields">
+			<h3>Add Fields</h3>
+			<button>Title
+				<li class="input">
+					<h2>Title</h2>
+				</li>
+			</button>
+			<button>Text Field
+				<li class="input">
+					<label>Label</label>
+					<input type="text" name="fields[new_field]" />
+				</li>
+			</button>
+			<button>Text Area
+				<li class="input">
+					<label>Label</label>
+					<textarea name="fields[new_field]"></textarea>
+				</li>
+			</button>
+			<button>
+				State
+				<li class="dropdown state">
+					<label>State</label>
+					<select name="fields[state]"> 
+						<option value="" selected="selected">Select a State</option> 
+						<option value="AL">Alabama</option> 
+						<option value="AK">Alaska</option> 
+						<option value="AZ">Arizona</option> 
+						<option value="AR">Arkansas</option> 
+						<option value="CA">California</option> 
+						<option value="CO">Colorado</option> 
+						<option value="CT">Connecticut</option> 
+						<option value="DE">Delaware</option> 
+						<option value="DC">District Of Columbia</option> 
+						<option value="FL">Florida</option> 
+						<option value="GA">Georgia</option> 
+						<option value="HI">Hawaii</option> 
+						<option value="ID">Idaho</option> 
+						<option value="IL">Illinois</option> 
+						<option value="IN">Indiana</option> 
+						<option value="IA">Iowa</option> 
+						<option value="KS">Kansas</option> 
+						<option value="KY">Kentucky</option> 
+						<option value="LA">Louisiana</option> 
+						<option value="ME">Maine</option> 
+						<option value="MD">Maryland</option> 
+						<option value="MA">Massachusetts</option> 
+						<option value="MI">Michigan</option> 
+						<option value="MN">Minnesota</option> 
+						<option value="MS">Mississippi</option> 
+						<option value="MO">Missouri</option> 
+						<option value="MT">Montana</option> 
+						<option value="NE">Nebraska</option> 
+						<option value="NV">Nevada</option> 
+						<option value="NH">New Hampshire</option> 
+						<option value="NJ">New Jersey</option> 
+						<option value="NM">New Mexico</option> 
+						<option value="NY">New York</option> 
+						<option value="NC">North Carolina</option> 
+						<option value="ND">North Dakota</option> 
+						<option value="OH">Ohio</option> 
+						<option value="OK">Oklahoma</option> 
+						<option value="OR">Oregon</option> 
+						<option value="PA">Pennsylvania</option> 
+						<option value="RI">Rhode Island</option> 
+						<option value="SC">South Carolina</option> 
+						<option value="SD">South Dakota</option> 
+						<option value="TN">Tennessee</option> 
+						<option value="TX">Texas</option> 
+						<option value="UT">Utah</option> 
+						<option value="VT">Vermont</option> 
+						<option value="VA">Virginia</option> 
+						<option value="WA">Washington</option> 
+						<option value="WV">West Virginia</option> 
+						<option value="WI">Wisconsin</option> 
+						<option value="WY">Wyoming</option>
+					</select>
+				</li>
+			</button>
+		</div>
+		<div id="field-settings">
+			<h3>Field Settings</h3>
+			<ul>
+				<li>Type: <span class="type"></span></li>
+				<li>Placeholder Text: <span class="placeholder" contenteditable="true"></span></li>
+				<li>
+					<a class="field-action delete">Delete Field</a>
+				</li>
+			</ul>
+		</div>
+		<div id="form-settings">
+			<h3>Form Settings</h3>
+		</div>
 	</div>
 </div>
