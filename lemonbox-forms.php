@@ -205,7 +205,8 @@
 			if ( $mode != 'preview' ) {
 			
 				$wpdb->insert( "{$wpdb->prefix}lemonbox_entries", $data );
-				echo json_encode( array( 'success' => true, 'msg' => $response['msg'] ) );
+				$msg = isset($response) ? $response['msg'] : $form->confirmation_message;
+				echo json_encode( array( 'success' => true, 'msg' => $msg ) );
 				exit;
 
 			} else {
