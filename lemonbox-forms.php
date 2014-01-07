@@ -83,6 +83,7 @@
 			form_id mediumint(11) NOT NULL,
 			entry text,
 			user_id mediumint(11) DEFAULT 0,
+			product_id mediumint(11),
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 			UNIQUE KEY id (id)
 		);";
@@ -153,30 +154,46 @@
 
 	function lbox_process_form() {
 		
+		global $wpdb;
+
 		if ( isset($_POST) ) {
 
-			global $wpdb;
-
 			extract( $_POST );
-			extract( $_POST['fields'] );
+			if ( isset($_POST['fields']) ) extract( $_POST['fields'] );
+			$mode = isset($_POST['mode']) ? $_POST['mode'] : 'live';
 
-			$email_to = isset($email) ? $email : '';
+			// Charge if product is present
+			if ( isset($product_id) ) {
+				
+				$response = lemonbox_post_payments();
 
-			if ( isset($form_id) ) {
-
-				$data = array(
-					'form_id' => $_POST['form_id'],
-					'entry' => serialize($_POST['fields']),
-					'user_id' => get_current_user_id()
-				);
-
-				if ( isset($product_id) ) {
-
-					do_action( 'lemonbox_post_payments' );
-
+				if( !$response['success'] ) {
+					echo json_encode( array( 'success' => false, 'msg' => $response->msg ) );
+					exit;
 				}
 
-				// if ( $_POST['mode'] != 'preview' ) $wpdb->insert( "{$wpdb->prefix}lemonbox_entries", $data );
+			}
+
+			// Process form
+			$email_to = isset($email) ? $email : '';
+
+			$data = array(
+				'form_id' => $_POST['form_id'],
+				'entry' => isset($_POST['fields']) ? serialize($_POST['fields']) : '',
+				'user_id' => get_current_user_id(),
+				'product_id' => isset( $product_id ) ? $product_id : 0
+			);
+
+			if ( $mode != 'preview' ) {
+			
+				$wpdb->insert( "{$wpdb->prefix}lemonbox_entries", $data );
+				echo json_encode( array( 'success' => true, 'msg' => $response['msg'] ) );
+				exit;
+
+			} else {
+
+				echo json_encode( array( 'success' => false, 'msg' => 'There was a problem processing your request' ) );
+				exit;
 
 			}
 

@@ -18,11 +18,13 @@
 			$.ajax({
 				type: 'POST',
 			  	url: lemonbox.ajaxurl,
-			  	data: $('.lemonbox-fields').closest('form').serialize() + '&action=lemonbox_process_form'
+			  	data: $('.lemonbox-fields').closest('form').serialize() + '&action=lemonbox_process_form',
+			  	dataType: 'json'
 			}).done(function( data ) {
 				$(button).text(button_text).removeAttr('disabled');
 
-				alert('Done!');
+				alert( data.msg );
+
 			});
 
 		});
