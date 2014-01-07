@@ -16,7 +16,7 @@
 
 			$(this).attr('disabled','true').text('...');
 
-			$('.required').each(function(){
+			$('.lemonbox-fields li .required').each(function(){
 
 				if ( $(this).val() == '' ) {
 					$(this).addClass('error');
@@ -37,13 +37,15 @@
 				type: 'POST',
 			  	url: lemonbox.ajaxurl,
 			  	data: $('.lemonbox-fields').closest('form').serialize() + '&action=lemonbox_process_form',
-			  	dataType: 'json'
-			}).done(function( data ) {
-				$(button).text(button_text).removeAttr('disabled');
-
-				alert( data.msg );
-
+			  	dataType: 'json',
+			  	success: function(data) {
+			  		$(button).text(button_text).removeAttr('disabled');	
+			  		console.log( data );
+			  		alert( data.msg );
+			  	}
 			});
+
+			
 
 		});
 
@@ -58,5 +60,7 @@
 		});
 
 	});
-
+	
+	return false;
+	
 })(jQuery);

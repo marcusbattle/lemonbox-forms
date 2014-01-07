@@ -59,6 +59,10 @@ body.lemonbox {
 
 .lemonbox-fields {
 	
+	h2 {
+		margin: 0 0 7px;
+	}
+	
 	background-color: #f4f4f4;
 	padding: 20px;
 	width: 100%;
@@ -193,19 +197,22 @@ body.lemonbox {
         display: -webkit-flex;  /* NEW, Chrome 21+ */
         display: box;
         display: flex;
+        margin-bottom: 10px;
 
-        input,
-        select,
-        textarea {
-            margin: 0 4px 0 0;
+        > input,
+        > select,
+        > textarea,
+        > div {
+            margin: 10px 10px 0 0;
             -webkit-box-flex: 1;
             box-flex: 1;
             flex: 1;
         }
 
-        input:last-of-type,
-        select:last-of-type,
-        textarea:last-of-type {
+        > input:last-of-type,
+        > select:last-of-type,
+        > textarea:last-of-type,
+        > div:last-of-type  {
             margin-right: 0;
         }
 

@@ -35,6 +35,8 @@ body.lemonbox * {
   border-radius: 3px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px; }
+  .lemonbox-fields h2 {
+    margin: 0 0 7px; }
   .lemonbox-fields * {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
@@ -124,17 +126,20 @@ body.lemonbox * {
     display: -webkit-flex;
     /* NEW, Chrome 21+ */
     display: box;
-    display: flex; }
-    .lemonbox-fields div.flex input,
-    .lemonbox-fields div.flex select,
-    .lemonbox-fields div.flex textarea {
-      margin: 0 4px 0 0;
+    display: flex;
+    margin-bottom: 10px; }
+    .lemonbox-fields div.flex > input,
+    .lemonbox-fields div.flex > select,
+    .lemonbox-fields div.flex > textarea,
+    .lemonbox-fields div.flex > div {
+      margin: 10px 10px 0 0;
       -webkit-box-flex: 1;
       box-flex: 1;
       flex: 1; }
-    .lemonbox-fields div.flex input:last-of-type,
-    .lemonbox-fields div.flex select:last-of-type,
-    .lemonbox-fields div.flex textarea:last-of-type {
+    .lemonbox-fields div.flex > input:last-of-type,
+    .lemonbox-fields div.flex > select:last-of-type,
+    .lemonbox-fields div.flex > textarea:last-of-type,
+    .lemonbox-fields div.flex > div:last-of-type {
       margin-right: 0; }
 
 ul.table {

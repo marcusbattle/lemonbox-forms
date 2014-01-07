@@ -201,7 +201,9 @@
 			  		action: 'lemonbox_save_form',
 			  		html: $(form_fields).html(),
 			  		form_id: $(this).data('form-id'),
-			  		form_title: $('.lemonbox-fields input[name="form_title"]').val()
+			  		confirmation_message: $('#confirmation-message').val(),
+			  		form_title: $('.lemonbox-fields input[name="form_title"]').val(),
+			  		best: 'one in town'
 			  	}
 			}).done(function( data ) {
 				$(button).text(button_text).removeAttr('disabled');

@@ -67,6 +67,7 @@
 			form_type varchar(64) NOT NULL DEFAULT 'custom',
 			fields text,
 			form_author mediumint(11) NOT NULL,
+			confirmation_message text,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 			UNIQUE KEY id (id)
 		);";
@@ -107,7 +108,7 @@
 
 	}
 
-	function lbox_get_form( $form_id = 0 ) { 
+	function lemonbox_get_form( $form_id = 0 ) { 
 		global $wpdb;
 
 		$sql = "
@@ -159,12 +160,21 @@
 		if ( isset($_POST) ) {
 
 			extract( $_POST );
-			if ( isset($_POST['fields']) ) extract( $_POST['fields'] );
+
+			$site_name = get_bloginfo();
+			$admin_email = get_bloginfo('admin_email');
+
+			$form = lemonbox_get_form( $form_id );
 			$mode = isset($_POST['mode']) ? $_POST['mode'] : 'live';
+
+			if ( isset($_POST['fields']) ) extract( $_POST['fields'] );
 
 			// Charge if product is present
 			if ( isset($product_id) ) {
 				
+				// Set name for charge if available
+				if ($first_name) $_POST['name'] = $first_name . ' ' . $last_name;
+
 				$response = lemonbox_post_payments();
 
 				if( !$response['success'] ) {
@@ -174,8 +184,16 @@
 
 			}
 
-			// Process form
+			// E-mail receipt
 			$email_to = isset($email) ? $email : '';
+			$form_title = isset($form_title) ? $form_title : 'Receipt for your entry';
+
+			$headers[] = "From: $site_name <$admin_email>";
+			$headers[] = "BCC: $site_name <$admin_email>";
+
+			add_filter( 'wp_mail_content_type', 'set_html_content_type' );
+			wp_mail( $email_to, $form_title, lemonbox_generate_form_receipt( $form->confirmation_message ), $headers );
+			remove_filter( 'wp_mail_content_type', 'set_html_content_type' );
 
 			$data = array(
 				'form_id' => $_POST['form_id'],
@@ -208,7 +226,11 @@
 
 		if ( $_POST['form_id'] ) {
 
-			$response = $wpdb->update( "{$wpdb->prefix}lemonbox_forms", array( 'fields' => trim($_POST['html']), 'form_title' => $_POST['form_title'] ), array( 'id' => $_POST['form_id'] ) );
+			$response = $wpdb->update( "{$wpdb->prefix}lemonbox_forms", array( 
+				'fields' => trim($_POST['html']), 
+				'form_title' => $_POST['form_title'],
+				'confirmation_message' => $_POST['confirmation_message'] 
+			), array( 'id' => $_POST['form_id'] ) );
 
 		} else {
 
@@ -216,12 +238,48 @@
 				'fields' => trim($_POST['html']), 
 				'form_title' => $_POST['form_title'],
 				'form_type' => 'custom',
-				'form_author' => get_current_user_id()
+				'form_author' => get_current_user_id(),
+				'confirmation_message' => $_POST['confirmation_message']
 			) );
 
 		}
 		
 		exit;
+	}
+
+	function lemonbox_generate_form_receipt( $message ) {
+
+		if ( isset($_POST['fields']) ) {
+
+			$message .= "<h3>Your Receipt</h3><ul>";
+
+			foreach ( $_POST['fields'] as $field => $value ) {
+
+				$message .= "<li>" . ucwords(str_replace( '_', ' ', $field)) . ": $value</li>";
+
+			}
+
+			$message .= "</ul>";
+
+			if ( isset($_POST['product_id']) && function_exists('lemonbox_get_product') ) {
+
+				$product = lemonbox_get_product( $_POST['product_id'] );
+
+				$message .= "<h3>Your Purchase</h3>";
+				$message .= "<p>{$product[0]->post_title} | Qty: " . $_POST['quantity'] . "</p>";
+
+			}
+
+			return $message;
+
+		}
+
+		return '';
+
+	}
+
+	function set_html_content_type() {
+		return 'text/html';
 	}
 
 	add_action( 'init', 'lbox_forms_init' );
@@ -231,6 +289,7 @@
 	add_action( 'wp_enqueue_scripts', 'load_lemonbox_forms_assets' );
 	add_shortcode( 'lemonbox_form', 'lbox_form_shortcode' );
 	add_action( 'wp_ajax_lemonbox_process_form', 'lbox_process_form' );
+	add_action( 'wp_ajax_nopriv_lemonbox_process_form', 'lbox_process_form' );
 	add_action( 'wp_ajax_lemonbox_save_form', 'lbox_save_form' );
 	add_action( 'wp_ajax_nopriv_lemonbox_save_form', 'lbox_save_form' );
 ?>

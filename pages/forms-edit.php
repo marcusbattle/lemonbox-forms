@@ -1,7 +1,7 @@
 <?php 
 	
 	if ( isset($_GET['form_id']) ) {
-		$form = lbox_get_form( $_GET['form_id'] );
+		$form = lemonbox_get_form( $_GET['form_id'] );
 		$form_id = $form->id;
 	} else {
 		$form_id = 0;
@@ -39,13 +39,16 @@
 			<button>Name
 				<li class="input name">
 					<label>Name</label>
-					<input type="text" name="fields[name]" />
+					<div class="flex">
+						<input type="text" name="fields[first_name]" placeholder="First Name" class="required" />
+						<input type="text" name="fields[last_name]" placeholder="Last Name" class="required" />
+					</div>
 				</li>
 			</button>
 			<button>Email
 				<li class="input email">
 					<label>Email</label>
-					<input type="text" name="fields[email]" />
+					<input type="email" name="fields[email]" />
 				</li>
 			</button>
 			<h4>General</h4>
@@ -234,6 +237,10 @@
 				<li>
 					<h4>Form Name</h4>
 					<input type="text" class="form-title" />
+				</li>
+				<li>
+					<h4>Confirmation Message</h4>
+					<textarea id="confirmation-message"><?php if (isset($form)) echo $form->confirmation_message; ?></textarea>
 				</li>
 			</ul>
 		</div>
