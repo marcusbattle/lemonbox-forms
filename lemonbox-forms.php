@@ -101,7 +101,7 @@
 			SELECT forms.*, COUNT(entries.id) AS entries, users.display_name AS author 
 			FROM {$wpdb->prefix}lemonbox_forms AS forms
 			LEFT JOIN {$wpdb->prefix}lemonbox_entries AS entries ON entries.form_id = forms.id
-			LEFT JOIN {$wpdb->prefix}users AS users ON users.ID = forms.form_author
+			LEFT JOIN {$wpdb->base_prefix}users AS users ON users.ID = forms.form_author
 			GROUP BY forms.id
 		";
 		return $wpdb->get_results($sql);

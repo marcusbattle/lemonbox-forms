@@ -154,19 +154,21 @@
 					<h2 class="product-title">Product Name</h2>
 					<input type="hidden" name="product_id" value="0" />
 					<input type="hidden" name="price" value="0" />
-					<div class="quantity">
-						<label>Quantity</label>
-						<select name="quantity" class="required">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						</select>
-					</div>
-					<div class="cost">
-						<label>Cost</label> 
-						<span class="callout">$0</span>
+					<div class="flex">
+						<div class="quantity">
+							<label>Quantity</label>
+							<select name="quantity" class="required">
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+							</select>
+						</div>
+						<div class="cost">
+							<label>Cost</label> 
+							<span class="callout">$0</span>
+						</div>
 					</div>
 					<div class="credit-card">
 						<label>Credit Card</label>
