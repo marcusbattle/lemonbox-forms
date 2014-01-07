@@ -16,6 +16,7 @@
 			
 			var field_type = '';
 			var field = '';
+			var required = ($(this).find('input,textarea,select').hasClass('required')) ? 1 : 0;
 
 			$('.focus *').removeAttr('contenteditable');
 			$('.focus').removeClass('focus');
@@ -82,6 +83,7 @@
 			$('#form-inspector .label').val( $(this).find('label').text() );
 			$('#form-inspector .placeholder').val( $(this).find('input,textarea').attr('placeholder') );
 			$('#form-inspector .field-name').val( field_name );
+			$('#form-inspector .required').val( required );
 
 		});
 	
@@ -127,6 +129,11 @@
 			} else if ( $(this).hasClass('option-value') ) {
 
 				$('.lemonbox-fields .focus select').find('option:nth-child(' + $(this).parent().data('index') + ')').val( $(this).val() );
+
+			} else if ( $(this).hasClass('required') ) {
+
+				if ( $(this).val() == 1 ) $('.lemonbox-fields .focus').find('input,select,textarea').addClass('required');
+				else $('.lemonbox-fields .focus').find('input,select,textarea').removeClass('required');
 
 			}
 

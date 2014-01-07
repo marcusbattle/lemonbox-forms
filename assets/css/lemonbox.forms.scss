@@ -149,6 +149,11 @@ body.lemonbox {
         	background-color: #555;
         	color: #f4f4f4;
         }
+
+        &.error {
+        	border: 1px solid red;
+        }
+        
     }
 
     button {

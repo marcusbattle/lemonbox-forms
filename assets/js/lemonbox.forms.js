@@ -12,8 +12,26 @@
 
 			var button = $(this);
 			var button_text = $(this).text();
+			var errors = false;
 
 			$(this).attr('disabled','true').text('...');
+
+			$('.required').each(function(){
+
+				if ( $(this).val() == '' ) {
+					$(this).addClass('error');
+					errors = true;
+				} else {
+					$(this).removeClass('error');
+				}
+
+			});
+
+			if ( errors ) {
+				$(button).text(button_text).removeAttr('disabled');
+				alert('Please complete the highlighted fields');
+				return false;
+			}
 
 			$.ajax({
 				type: 'POST',
@@ -33,6 +51,10 @@
 			var price = $('.product input[name="price"]').val();
 
 			$('.product .cost span').text( '$' + (price * $(this).val() ) );
+		});
+
+		$(document).on('keyup', '.lemonbox-fields .required', function(){
+			$(this).removeClass('error');
 		});
 
 	});

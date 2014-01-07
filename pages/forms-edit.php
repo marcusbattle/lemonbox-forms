@@ -148,12 +148,12 @@
 			<?php if ( is_plugin_active( 'lemonbox-shop/lemonbox-shop.php' ) ): ?>
 			<button>Product
 				<li class="product">
-					<h2 class="product-title">Audition Ticket</h2>
+					<h2 class="product-title">Product Name</h2>
 					<input type="hidden" name="product_id" value="0" />
-					<input type="hidden" name="price" value="10" />
+					<input type="hidden" name="price" value="0" />
 					<div class="quantity">
 						<label>Quantity</label>
-						<select name="quantity">
+						<select name="quantity" class="required">
 							<option value="1">1</option>
 							<option value="2">2</option>
 							<option value="3">3</option>
@@ -163,18 +163,17 @@
 					</div>
 					<div class="cost">
 						<label>Cost</label> 
-						<span class="callout">$10</span>
+						<span class="callout">$0</span>
 					</div>
 					<div class="credit-card">
 						<label>Credit Card</label>
-						<input type="text" name="card_number" placeholder="•••• •••• •••• ••••" />
+						<input type="text" name="card_number" placeholder="•••• •••• •••• ••••" class="required" />
 						<div class="flex">
-							<input type="text" name="exp_month" maxlength="2" placeholder="Month (MM)" />
-							<input type="text" name="exp_year" maxlength="4" placeholder="Year (YYYY)" />
-							<input type="text" name="cvc" maxlength="3" placeholder="CVC" />
+							<input type="text" name="exp_month" maxlength="2" placeholder="Month (MM)" class="required" />
+							<input type="text" name="exp_year" maxlength="4" placeholder="Year (YYYY)" class="required" />
+							<input type="text" name="cvc" maxlength="3" placeholder="CVC" class="required" />
 						</div>
 					</div>
-					<p>Here is all of the great security information!</p>
 				</li>
 			</button>
 			<?php endif; ?>
@@ -210,6 +209,14 @@
 				<li>
 					<h4>Placeholder Text</h4>
 					<input type="text" class="placeholder" />
+				</li>
+				<li>
+					<h4>Required?</h4>
+					<select class="required">
+						<option></option>
+						<option value="1">Yes</option>
+						<option value="0">No</option>
+					</select>
 				</li>
 			</ul>
 			<ul class="dropdown-settings">

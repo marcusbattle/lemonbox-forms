@@ -86,6 +86,10 @@ body.lemonbox * {
       outline: none;
       background-color: #555;
       color: #f4f4f4; }
+    .lemonbox-fields input.error,
+    .lemonbox-fields select.error,
+    .lemonbox-fields textarea.error {
+      border: 1px solid red; }
   .lemonbox-fields button {
     border-radius: 0;
     -webkit-border-radius: 0;
