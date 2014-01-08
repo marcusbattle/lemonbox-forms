@@ -37,7 +37,7 @@
 			$.ajax({
 				type: 'POST',
 			  	url: lemonbox.ajaxurl,
-			  	data: $('.lemonbox-fields').closest('form').serialize() + '&action=lemonbox_process_form',
+			  	data: $(form).serialize() + '&action=lemonbox_process_form',
 			  	dataType: 'json',
 			  	success: function(data) {
 			  		$(button).text(button_text).removeAttr('disabled');	
@@ -51,9 +51,11 @@
 		});
 
 		$(document).on('change', '.lemonbox-fields .product select[name="quantity"]', function(){
-			var price = $('.product input[name="price"]').val();
 
-			$('.product .cost span').text( '$' + (price * $(this).val() ) );
+			var form = $(this).closest('form');
+			var price = $(form).find('.product input[name="price"]').val();
+
+			$(form).find('.product .cost span').text( '$' + (price * $(this).val() ) );
 		});
 
 		$(document).on('keyup', '.lemonbox-fields .required', function(){
