@@ -13,10 +13,11 @@
 			var button = $(this);
 			var button_text = $(this).text();
 			var errors = false;
+			var form = $(this).closest('form');
 
 			$(this).attr('disabled','true').text('...');
 
-			$('.lemonbox-fields li .required').each(function(){
+			$(form).find('.required').each(function(){
 
 				if ( $(this).val() == '' ) {
 					$(this).addClass('error');
