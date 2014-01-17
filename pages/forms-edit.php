@@ -154,6 +154,7 @@
 					<h2 class="product-title">Product Name</h2>
 					<input type="hidden" name="product_id" value="0" />
 					<input type="hidden" name="price" value="0" />
+					<input type="hidden" name="payment_type" value="credit" />
 					<div class="flex">
 						<div class="quantity">
 							<label>Quantity</label>
@@ -199,6 +200,14 @@
 				<li>
 					<h4>Max Quantity</h4>
 					<input type="text" class="max-quantity" />
+				</li>
+				<li>
+					<h4>Payment Type</h4>
+					<select class="payment-type">
+						<option value="0">Select Payment Type</option>
+						<option value="credit">Credit</option>
+						<option value="cash">Cash</option>
+					</select>
 				</li>
 			</ul>
 			<?php endif; ?>

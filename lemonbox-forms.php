@@ -189,6 +189,7 @@
 			$form_title = isset($form_title) ? $form_title : 'Receipt for your entry';
 
 			$headers[] = "From: $site_name <$admin_email>";
+			$headers[] = "Reply-To: $site_name <$admin_email>";
 			$headers[] = "BCC: $site_name <$admin_email>";
 
 			add_filter( 'wp_mail_content_type', 'set_html_content_type' );

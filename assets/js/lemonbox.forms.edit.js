@@ -70,7 +70,9 @@
 				$('#field-settings .product-settings').show();
 				$('#field-settings .product-settings').find('.product').val( $(this).find('input[name="product_id"]').val() );
 				$('#field-settings .product-settings').find('.max-quantity').val( $(this).find('select[name="quantity"] option:last-child').val() );
-			}
+				$('#field-settings .product-settings').find('.payment-type').val( $(this).find('input[name="payment_type"]').val() );
+
+			} 
 
 			if ( ( field_type != 'title' ) && ( field_type != 'submit' ) ) {
 				var field_name = $(this).find('input,textarea,select').attr('name')
@@ -134,6 +136,18 @@
 
 				if ( $(this).val() == 1 ) $('.lemonbox-fields .focus').find('input,select,textarea').addClass('required');
 				else $('.lemonbox-fields .focus').find('input,select,textarea').removeClass('required');
+
+			} else if ( $(this).hasClass('payment-type') ) {
+				
+				$('.lemonbox-fields .focus input[name="payment_type"]').val( $(this).val() );
+
+				if ( $(this).val() == 'cash' ) {
+					$('.lemonbox-fields .focus .credit-card').hide();
+					$('.lemonbox-fields .focus .credit-card').find('.required').removeClass('required');
+				} else {
+					$('.lemonbox-fields .focus .credit-card').show();
+					$('.lemonbox-fields .focus .credit-card').find('input').addClass('required');
+				}
 
 			}
 
