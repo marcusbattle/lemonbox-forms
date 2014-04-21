@@ -35,7 +35,7 @@
 	}
 
 	function lemonbox_forms_settings() {
-		add_menu_page( 'LemonBox Forms', 'Forms', 'administrator', 'lemonbox-forms', 'lbox_menu_home', '', 6 );
+		// add_menu_page( 'LemonBox Forms', 'Forms', 'administrator', 'lemonbox-forms', 'lbox_menu_home', '', 6 );
 	}
 
 	function lbox_menu_home() {
@@ -54,45 +54,116 @@
 
 	}
 
-	function lbox_forms_init() {
+	function lbox_forms() {
 
-		global $wpdb;
-
-		// Create forms table
-		$table_name = $wpdb->prefix . "lemonbox_forms";
-
-		$sql = "CREATE TABLE $table_name (
-			id mediumint(11) NOT NULL AUTO_INCREMENT,
-			form_title varchar(128) NOT NULL,
-			form_type varchar(64) NOT NULL DEFAULT 'custom',
-			fields text,
-			form_author mediumint(11) NOT NULL,
-			confirmation_message text,
-			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-			UNIQUE KEY id (id)
-		);";
+		$labels = array(
+			'name'               => _x( 'Forms', 'post type general name' ),
+			'singular_name'      => _x( 'Form', 'post type singular name' ),
+			'add_new'            => _x( 'Add New', 'form' ),
+			'add_new_item'       => __( 'Add New Form' ),
+			'edit_item'          => __( 'Edit Form' ),
+			'new_item'           => __( 'New Form' ),
+			'all_items'          => __( 'All Forms' ),
+			'view_item'          => __( 'View Form' ),
+			'search_items'       => __( 'Search Forms' ),
+			'not_found'          => __( 'No forms found' ),
+			'not_found_in_trash' => __( 'No forms found in the Trash' ), 
+			'parent_item_colon'  => '',
+			'menu_name'          => 'Forms',
+			'can_export'			=> true
+		);
 		
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta($sql);
+		$args = array(
+			'labels'        => $labels,
+			'description'   => 'Holds our forms and form specific data',
+			'public'        => true,
+			'menu_position' => 31,
+			'supports'      => array( 'title', 'editor', 'thumbnail', 'page-attributes'),
+			'has_archive'   => false,
+			'show_in_nav_menus' => true,
+			'rewrite' 			=> array( 'slug' => 'forms' ),
+			'capability_type' => 'page',
+			'hierarchical'	=> false,
+			'publicly_queryable' => true,
+			'query_var' => true,
+			'can_export' => true
+		);
 
+		register_post_type('lemonbox_form',$args);
 
-		// create entries table
-		$table_name = $wpdb->prefix . "lemonbox_entries";
+		// global $wpdb;
 
-		$sql = "CREATE TABLE $table_name (
-			id mediumint(11) NOT NULL AUTO_INCREMENT,
-			form_id mediumint(11) NOT NULL,
-			entry text,
-			user_id mediumint(11) DEFAULT 0,
-			product_id mediumint(11),
-			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-			UNIQUE KEY id (id)
-		);";
+		// // Create forms table
+		// $table_name = $wpdb->prefix . "lemonbox_forms";
+
+		// $sql = "CREATE TABLE $table_name (
+		// 	id mediumint(11) NOT NULL AUTO_INCREMENT,
+		// 	form_title varchar(128) NOT NULL,
+		// 	form_type varchar(64) NOT NULL DEFAULT 'custom',
+		// 	fields text,
+		// 	form_author mediumint(11) NOT NULL,
+		// 	confirmation_message text,
+		// 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+		// 	UNIQUE KEY id (id)
+		// );";
 		
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		dbDelta($sql);
+		// require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		// dbDelta($sql);
+
+
+		// // create entries table
+		// $table_name = $wpdb->prefix . "lemonbox_entries";
+
+		// $sql = "CREATE TABLE $table_name (
+		// 	id mediumint(11) NOT NULL AUTO_INCREMENT,
+		// 	form_id mediumint(11) NOT NULL,
+		// 	entry text,
+		// 	user_id mediumint(11) DEFAULT 0,
+		// 	product_id mediumint(11),
+		// 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+		// 	UNIQUE KEY id (id)
+		// );";
+		
+		// require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		// dbDelta($sql);
 
 	}
+
+
+	// Remove the slug from published post permalinks. Only affect our CPT though.
+	function lbox_forms_slug_rewrite( $permalink, $post, $leavename ) {
+		
+	    if ( 'lemonbox_form' == $post->post_type && 'publish' == $post->post_status ) {
+	     	$permalink = str_replace( '/forms/', '/', $permalink );
+	    }
+	 
+	    return $permalink;
+
+	}
+
+	function lbox_forms_query( $query ) {
+
+        if( $query->is_main_query() && !$query->get('post_type') ) { 
+
+            $post_name = $query->get('pagename'); 
+            $page = get_page_by_path( $post_name, OBJECT, 'lemonbox_form' );
+            $post_type = ($page) ? $page->post_type : '';
+
+            if ( $post_type == 'lemonbox_form' ) {	
+
+	            $query->set('lemonbox_form', $post_name); 
+	            $query->set('post_type', $post_type); 
+	            $query->is_single = true; 
+	            $query->is_page = false; 
+
+	        }	
+
+        } 
+
+        return $query;
+
+	}
+
 
 	function lbox_get_forms() { 
 		global $wpdb;
@@ -284,7 +355,10 @@
 		return 'text/html';
 	}
 
-	add_action( 'init', 'lbox_forms_init' );
+	add_action( 'init', 'lbox_forms' );
+	add_filter( 'post_type_link', 'lbox_forms_slug_rewrite', 10, 3 );
+	add_action( 'pre_get_posts', 'lbox_forms_query' );
+
 	add_action( 'admin_menu', 'lemonbox_forms_settings' );
 	add_filter( 'admin_body_class', 'lbox_admin_class' );
 	add_action( 'admin_enqueue_scripts', 'load_lemonbox_forms_admin_assets' );
