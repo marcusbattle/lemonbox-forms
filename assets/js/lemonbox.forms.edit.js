@@ -2,6 +2,10 @@
 	
 	$(document).ready(function(){
 
+		$('.lemonbox-form').sortable();
+		$('.lemonbox-form').disableSelection();
+
+		/* 
 		$("#form-inspector").tabs();
 		$('#dropdown-creator > div').sortable();
 
@@ -241,6 +245,9 @@
 			var i = $('#dropdown-creator > div').length;
 			$('#dropdown-creator').append('<div class="option" data-index="' + (i + 1) + '"><input class="option-value" /><input class="option-text" /><a class="delete-option">Delete</a></div>');
 		}
+
+		*/
+
 	});
 
 	

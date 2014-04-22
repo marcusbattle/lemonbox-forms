@@ -2,11 +2,11 @@
 	
 	/*
 	Plugin Name: LemonBox Forms
-	Plugin URI: http://lemonboxapps.com
+	Plugin URI: http://lemonboxcreative.com
 	Description: LemonBox Forms
 	Version: 0.0.1
 	Author: LemonBox
-	Author URI: http://lemonboxapps.com
+	Author URI: http://lemonboxcreative.com
 	License: DO NOT STEAL
 	*/
 
@@ -19,7 +19,7 @@
         wp_enqueue_style( 'lbox-forms-edit-css' );
 
         wp_register_style( 'lbox-forms-css', plugin_dir_url( __FILE__ ) . '/assets/css/lemonbox.forms.css' );
-        wp_enqueue_style( 'lbox-forms-css' );
+        // wp_enqueue_style( 'lbox-forms-css' );
 
         wp_localize_script( 'lbox-forms-edit-js', 'lemonbox', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	}
@@ -78,7 +78,7 @@
 			'description'   => 'Holds our forms and form specific data',
 			'public'        => true,
 			'menu_position' => 31,
-			'supports'      => array( 'title', 'editor', 'thumbnail', 'page-attributes'),
+			'supports'      => array( 'title', 'thumbnail' ),
 			'has_archive'   => false,
 			'show_in_nav_menus' => true,
 			'rewrite' 			=> array( 'slug' => 'forms' ),
@@ -133,7 +133,7 @@
 	// Remove the slug from published post permalinks. Only affect our CPT though.
 	function lbox_forms_slug_rewrite( $permalink, $post, $leavename ) {
 		
-	    if ( 'lemonbox_form' == $post->post_type && 'publish' == $post->post_status ) {
+	    if ( 'lemonbox_form' == $post->post_type && 'publish' == $post->post_status && !is_admin() ) {
 	     	$permalink = str_replace( '/forms/', '/', $permalink );
 	    }
 	 
@@ -164,6 +164,17 @@
 
 	}
 
+	function lbox_forms_meta_boxes() {
+		add_meta_box( 'lbox_form_editor', 'Form Editor', 'lbox_forms_meta_box_form_editor', 'lemonbox_form', 'normal', 'high' );
+	}
+
+	function lbox_forms_meta_box_form_editor( $post_id ) {
+		
+		global $post;
+
+		include plugin_dir_path( __FILE__ ) . 'templates/editor.php';
+
+	}
 
 	function lbox_get_forms() { 
 		global $wpdb;
@@ -188,14 +199,6 @@
 			WHERE forms.id = $form_id
 		";
 		return $wpdb->get_row($sql);
-
-	}
-
-	function lbox_admin_class( $classes ) {
-
-		if ( isset($_GET['page']) && ($_GET['page'] == 'lemonbox-forms') ) {
-		    echo "lemonbox";
-		}
 
 	}
 
@@ -359,13 +362,17 @@
 	add_filter( 'post_type_link', 'lbox_forms_slug_rewrite', 10, 3 );
 	add_action( 'pre_get_posts', 'lbox_forms_query' );
 
-	add_action( 'admin_menu', 'lemonbox_forms_settings' );
-	add_filter( 'admin_body_class', 'lbox_admin_class' );
+	add_action( 'add_meta_boxes', 'lbox_forms_meta_boxes' );
+
+	// add_action( 'admin_menu', 'lemonbox_forms_settings' );
+	
 	add_action( 'admin_enqueue_scripts', 'load_lemonbox_forms_admin_assets' );
 	add_action( 'wp_enqueue_scripts', 'load_lemonbox_forms_assets' );
 	add_shortcode( 'lemonbox_form', 'lbox_form_shortcode' );
+
 	add_action( 'wp_ajax_lemonbox_process_form', 'lbox_process_form' );
 	add_action( 'wp_ajax_nopriv_lemonbox_process_form', 'lbox_process_form' );
 	add_action( 'wp_ajax_lemonbox_save_form', 'lbox_save_form' );
 	add_action( 'wp_ajax_nopriv_lemonbox_save_form', 'lbox_save_form' );
+
 ?>
