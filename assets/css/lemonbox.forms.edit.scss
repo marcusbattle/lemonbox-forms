@@ -1,3 +1,74 @@
+#poststuff #lbox-form-fields {
+	
+	&.postbox .inside {
+		padding: 0;
+	}
+
+	h3.hndle span:nth-child(2) {
+		padding: 6px;
+		margin-left: 10px;
+	}
+
+	overflow: hidden;
+
+}
+
+#lemonbox-fields {
+	width: 50%;
+	position: relative;
+	border-top: 1px solid;
+	border-right: 1px solid;
+	border-color: #ddd;
+	min-height: 300px;
+	float: left;
+
+	> div {
+		display: block;
+		padding: 15px;
+		border-bottom: 1px solid;
+		border-bottom-color: #eee;
+		cursor: pointer;
+		position: relative;
+
+		&:last {
+			border-bottom: none;
+		}
+
+		span.move {
+			display: none;
+		}
+
+		&:hover span.move {
+			display: none;
+			width: 32px;
+			height: 32px;
+			background-image: url(../img/glyphicons_186_move.png);
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 16px;
+			position: absolute;
+			right: 10px;
+		}
+
+	}
+
+}
+
+#lbox-field-inspector {
+	width: 50%;
+	position: relative;
+	min-height: 300px;
+}
+
+#lbox-form-field-menu {
+
+	display: block;
+	margin-bottom: 25px;
+
+}
+
+
+
 /* $background-main: #fff;
 
 .form-action,
@@ -134,12 +205,14 @@ h3.form-title {
 
 }
 
+
+*/
+
 #add-fields {
 
 	button {
-		color: #fff;
 		width: 150px;
-		border: 1px solid #fff;
+		border: 1px solid #CCC;
 		background-color: transparent;
 		outline: none;
 		float: left;
@@ -151,15 +224,18 @@ h3.form-title {
 		margin: 4px;
 		cursor: pointer;
 
-		li {
+		div {
 			display: none;
 		}
 
 	}
 
+	h4 {
+		clear: both;
+	}
+
 }
 
-*/
 
 #dropdown-creator {
 	

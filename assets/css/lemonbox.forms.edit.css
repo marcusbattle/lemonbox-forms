@@ -1,86 +1,191 @@
+#poststuff #lbox-form-fields {
+  overflow: hidden; }
+  #poststuff #lbox-form-fields.postbox .inside {
+    padding: 0; }
+  #poststuff #lbox-form-fields h3.hndle span:nth-child(2) {
+    padding: 6px;
+    margin-left: 10px; }
+
+#lemonbox-fields {
+  width: 50%;
+  position: relative;
+  border-top: 1px solid;
+  border-right: 1px solid;
+  border-color: #ddd;
+  min-height: 300px;
+  float: left; }
+  #lemonbox-fields > div {
+    display: block;
+    padding: 15px;
+    border-bottom: 1px solid;
+    border-bottom-color: #eee;
+    cursor: pointer;
+    position: relative; }
+    #lemonbox-fields > div:last {
+      border-bottom: none; }
+    #lemonbox-fields > div span.move {
+      display: none; }
+    #lemonbox-fields > div:hover span.move {
+      display: none;
+      width: 32px;
+      height: 32px;
+      background-image: url(../img/glyphicons_186_move.png);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 16px;
+      position: absolute;
+      right: 10px; }
+
+#lbox-field-inspector {
+  width: 50%;
+  position: relative;
+  min-height: 300px; }
+
+#lbox-form-field-menu {
+  display: block;
+  margin-bottom: 25px; }
+
+/* $background-main: #fff;
+
 .form-action,
 .field-action {
-  cursor: pointer;
-  display: inline-block;
-  float: none;
-  padding: 7px 10px;
-  border: 1px solid #CCC;
-  background-color: #333;
-  color: #fff;
-  min-width: 90px;
-  margin: 0;
-  text-align: center;
-  text-decoration: none; }
-  .form-action.new-form,
-  .field-action.new-form {
-    position: absolute;
-    top: 23px;
-    left: 90px; }
+	
+	cursor: pointer;
+	display: inline-block;
+	float: none;
+	padding: 7px 10px;
+	border: 1px solid #CCC;
+	background-color: #333;
+	color: #fff;
+	min-width: 90px;
+	margin: 0;
+	text-align: center;
+	text-decoration: none;
+
+	&.active {
+		
+	}
+
+	&.new-form {
+		position: absolute;
+		top: 23px;
+		left: 90px;
+	}
+}
 
 h3.form-title {
-  text-transform: uppercase;
-  color: #eee;
-  font-weight: 300; }
+	text-transform: uppercase;
+	color: #eee;
+	font-weight: 300;
+}
 
 .lemonbox-fields {
-  position: relative;
-  float: none; }
-  .lemonbox-fields.edit li {
-    cursor: pointer;
-    padding: 10px; }
-    .lemonbox-fields.edit li:hover {
-      background-color: #e6e6e6; }
-    .lemonbox-fields.edit li.focus {
-      border: 1px dashed #CCC; }
-      .lemonbox-fields.edit li.focus:hover {
-        background-color: transparent;
-        color: inherit; }
-      .lemonbox-fields.edit li.focus * {
-        outline: 0; }
-  .lemonbox-fields.edit .field-viewer {
-    width: 300px;
-    background: #333;
-    height: 100%;
-    position: absolute; }
-  .lemonbox-fields h2 {
-    color: inherit; }
+	position: relative;
+	float: none;
+
+	&.edit {
+
+		li {
+			cursor: pointer;
+			padding: 10px;
+
+			&:hover {
+				background-color: darken( $background-main, 10% );
+			}
+
+			&.focus {
+				border: 1px dashed #CCC;
+
+				&:hover {
+					background-color: transparent;
+					color: inherit;
+				}
+
+				* {
+					outline: 0;
+				}
+
+			}
+
+		}
+
+		.field-viewer {
+			width: 300px;
+			background: #333;
+			height: 100%;
+			position: absolute;
+		}
+
+	}
+
+	h2 {
+		color: inherit;
+	}
+
+}
+
 
 #form-inspector {
-  position: fixed;
-  width: 380px;
-  right: 15px;
-  top: 43px;
-  height: 100%; }
-  #form-inspector #form-menu {
-    position: absolute;
-    left: 100px;
-    top: 0;
-    margin: 0; }
-    #form-inspector #form-menu li {
-      display: inline-block;
-      margin: 0; }
-      #form-inspector #form-menu li a {
-        text-decoration: none;
-        padding: 0 7px;
-        display: block;
-        line-height: 32px;
-        outline: none;
-        border: 1px solid transparent; }
-        #form-inspector #form-menu li a:hover {
-          border-color: inherit; }
-  #form-inspector > div input {
-    width: 100%; }
-  #form-inspector h3 {
-    color: #fff; }
-  #form-inspector h4 {
-    color: #0074a2;
-    margin: 0 0 10px;
-    clear: both; }
+	
+	position: fixed;
+	width: 380px;
+	right: 15px;
+	top: 43px;
+	height: 100%;
 
+	#form-menu {
+		position: absolute;
+		left: 100px;
+		top: 0;
+		margin: 0;
+
+		li {
+			display: inline-block;
+			margin: 0;
+
+			a {
+				text-decoration: none;
+				padding: 0 7px;
+				display: block;
+				line-height: 32px;
+				outline: none;
+				border: 1px solid transparent;
+
+				&:hover {
+					border-color: inherit;
+				}
+
+			}
+
+		}
+		
+	}
+
+	> div {
+
+		input { 
+			width: 100%;
+		}
+
+	}
+
+	h3 {
+		color: #fff;
+	}
+
+	h4 {
+		color: #0074a2;
+		margin: 0 0 10px;
+		clear: both;
+	}
+
+}
+
+
+*/
 #add-fields button {
-  color: #fff;
   width: 150px;
-  border: 1px solid #fff;
+  border: 1px solid #CCC;
   background-color: transparent;
   outline: none;
   float: left;
@@ -91,8 +196,10 @@ h3.form-title {
   -moz-border-radius: 4px;
   margin: 4px;
   cursor: pointer; }
-  #add-fields button li {
+  #add-fields button div {
     display: none; }
+#add-fields h4 {
+  clear: both; }
 
 #dropdown-creator > div {
   display: -webkit-box;

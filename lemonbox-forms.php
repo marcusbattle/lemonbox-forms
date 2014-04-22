@@ -10,19 +10,7 @@
 	License: DO NOT STEAL
 	*/
 
-	function load_lemonbox_forms_admin_assets() {
-		wp_enqueue_script('jquery-ui', '//code.jquery.com/ui/1.10.3/jquery-ui.js', array('jquery') );
-		wp_enqueue_script('jquery-mask', plugin_dir_url( __FILE__ ) . '/assets/js/jquery.maskedinput.min.js', array('jquery') );
-		wp_enqueue_script( 'lbox-forms-edit-js', plugin_dir_url( __FILE__ ) . '/assets/js/lemonbox.forms.js', array('jquery-mask') );
-		wp_enqueue_script( 'lbox-forms-js', plugin_dir_url( __FILE__ ) . '/assets/js/lemonbox.forms.edit.js', array('jquery-ui') );
-		wp_register_style( 'lbox-forms-edit-css', plugin_dir_url( __FILE__ ) . '/assets/css/lemonbox.forms.edit.css' );
-        wp_enqueue_style( 'lbox-forms-edit-css' );
-
-        wp_register_style( 'lbox-forms-css', plugin_dir_url( __FILE__ ) . '/assets/css/lemonbox.forms.css' );
-        // wp_enqueue_style( 'lbox-forms-css' );
-
-        wp_localize_script( 'lbox-forms-edit-js', 'lemonbox', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
-	}
+	
 
 	function load_lemonbox_forms_assets() {
 		wp_enqueue_script( 'jquery-mask', plugin_dir_url( __FILE__ ) . '/assets/js/jquery.maskedinput.min.js', array('jquery') );
@@ -127,8 +115,25 @@
 		// require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		// dbDelta($sql);
 
+		add_thickbox(); // Makes sure that ThickBox support is loaded
+
 	}
 
+	function lbox_forms_admin_assets() {
+
+		wp_enqueue_script('jquery-ui', '//code.jquery.com/ui/1.10.3/jquery-ui.js', array('jquery') );
+		wp_enqueue_script('jquery-mask', plugin_dir_url( __FILE__ ) . '/assets/js/jquery.maskedinput.min.js', array('jquery') );
+		wp_enqueue_script( 'lbox-forms-edit-js', plugin_dir_url( __FILE__ ) . '/assets/js/lemonbox.forms.js', array('jquery-mask') );
+		wp_enqueue_script( 'lbox-forms-js', plugin_dir_url( __FILE__ ) . '/assets/js/lemonbox.forms.edit.js', array('jquery-ui') );
+		
+		wp_register_style( 'lbox-forms-edit-css', plugin_dir_url( __FILE__ ) . '/assets/css/lemonbox.forms.edit.css' );
+        wp_enqueue_style( 'lbox-forms-edit-css' );
+
+        wp_register_style( 'lbox-forms-css', plugin_dir_url( __FILE__ ) . '/assets/css/lemonbox.forms.css' );
+        // wp_enqueue_style( 'lbox-forms-css' );
+
+        wp_localize_script( 'lbox-forms-edit-js', 'lemonbox', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
+	}
 
 	// Remove the slug from published post permalinks. Only affect our CPT though.
 	function lbox_forms_slug_rewrite( $permalink, $post, $leavename ) {
@@ -165,10 +170,10 @@
 	}
 
 	function lbox_forms_meta_boxes() {
-		add_meta_box( 'lbox_form_editor', 'Form Editor', 'lbox_forms_meta_box_form_editor', 'lemonbox_form', 'normal', 'high' );
+		add_meta_box( 'lbox-form-fields', 'Form Fields', 'lbox_forms_meta_box_form_fields', 'lemonbox_form', 'normal', 'high' );
 	}
 
-	function lbox_forms_meta_box_form_editor( $post_id ) {
+	function lbox_forms_meta_box_form_fields( $post_id ) {
 		
 		global $post;
 
@@ -296,31 +301,47 @@
 		exit;
 	}
 
-	function lbox_save_form() {
+	function lbox_save_form( $post_id ) {
 
-		global $wpdb;
+		remove_action( 'save_post', 'lbox_save_form' );
 
-		if ( $_POST['form_id'] ) {
+		if ( isset($_REQUEST['_form_fields']) ) {
 
-			$response = $wpdb->update( "{$wpdb->prefix}lemonbox_forms", array( 
-				'fields' => trim($_POST['html']), 
-				'form_title' => $_POST['form_title'],
-				'confirmation_message' => $_POST['confirmation_message'] 
-			), array( 'id' => $_POST['form_id'] ) );
+			$form = array(
+			      'ID' => $post_id,
+			      'post_content' => $_REQUEST['_form_fields']
+			);
 
-		} else {
-
-			$response = $wpdb->insert( "{$wpdb->prefix}lemonbox_forms", array( 
-				'fields' => trim($_POST['html']), 
-				'form_title' => $_POST['form_title'],
-				'form_type' => 'custom',
-				'form_author' => get_current_user_id(),
-				'confirmation_message' => $_POST['confirmation_message']
-			) );
+			$updated = wp_update_post( $form );
 
 		}
+
+		add_action( 'save_post', 'lbox_save_form' );
+
 		
-		exit;
+		// global $wpdb;
+
+		// if ( $_POST['form_id'] ) {
+
+		// 	$response = $wpdb->update( "{$wpdb->prefix}lemonbox_forms", array( 
+		// 		'fields' => trim($_POST['html']), 
+		// 		'form_title' => $_POST['form_title'],
+		// 		'confirmation_message' => $_POST['confirmation_message'] 
+		// 	), array( 'id' => $_POST['form_id'] ) );
+
+		// } else {
+
+		// 	$response = $wpdb->insert( "{$wpdb->prefix}lemonbox_forms", array( 
+		// 		'fields' => trim($_POST['html']), 
+		// 		'form_title' => $_POST['form_title'],
+		// 		'form_type' => 'custom',
+		// 		'form_author' => get_current_user_id(),
+		// 		'confirmation_message' => $_POST['confirmation_message']
+		// 	) );
+
+		// }
+		
+		// exit;
 	}
 
 	function lemonbox_generate_form_receipt( $message ) {
@@ -359,20 +380,22 @@
 	}
 
 	add_action( 'init', 'lbox_forms' );
+	add_action( 'admin_enqueue_scripts', 'lbox_forms_admin_assets' );
+
 	add_filter( 'post_type_link', 'lbox_forms_slug_rewrite', 10, 3 );
 	add_action( 'pre_get_posts', 'lbox_forms_query' );
 
 	add_action( 'add_meta_boxes', 'lbox_forms_meta_boxes' );
+	add_action( 'save_post', 'lbox_save_form' );
 
 	// add_action( 'admin_menu', 'lemonbox_forms_settings' );
 	
-	add_action( 'admin_enqueue_scripts', 'load_lemonbox_forms_admin_assets' );
+	
 	add_action( 'wp_enqueue_scripts', 'load_lemonbox_forms_assets' );
 	add_shortcode( 'lemonbox_form', 'lbox_form_shortcode' );
 
 	add_action( 'wp_ajax_lemonbox_process_form', 'lbox_process_form' );
 	add_action( 'wp_ajax_nopriv_lemonbox_process_form', 'lbox_process_form' );
-	add_action( 'wp_ajax_lemonbox_save_form', 'lbox_save_form' );
-	add_action( 'wp_ajax_nopriv_lemonbox_save_form', 'lbox_save_form' );
+
 
 ?>

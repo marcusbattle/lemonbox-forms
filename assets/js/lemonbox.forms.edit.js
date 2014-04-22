@@ -2,10 +2,13 @@
 	
 	$(document).ready(function(){
 
-		$('.lemonbox-form').sortable();
-		$('.lemonbox-form').disableSelection();
+		// Setup
+		$('#lemonbox-fields').sortable();
+		$('#lemonbox-fields').disableSelection();
+		$('#lbox-fields').tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
+    	$('#lbox-fields li').removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
 
-		/* 
+
 		$("#form-inspector").tabs();
 		$('#dropdown-creator > div').sortable();
 
@@ -190,12 +193,20 @@
 
 		$('#add-fields button').on('click', function(e){
 
-			var field = $(this).find('li').clone();
-			$('.lemonbox-fields li.submit').before(field);
+			e.preventDefault();
 
-			$('.lemonbox-fields li.date input').mask('99/99/9999');
-			$('.lemonbox-fields .credit-card input[name="card_number"]').mask('9999 9999 9999 9999');
-			$('.lemonbox-fields li.zip input').mask('99999');
+			var field = $(this).find('> div').clone();
+
+			// $('#lemonbox-fields div.submit').after(field);
+			$('#lemonbox-fields').append(field);
+
+			$('#lemonbox-fields div.date input').mask('99/99/9999');
+			$('#lemonbox-fields .credit-card input[name="card_number"]').mask('9999 9999 9999 9999');
+			$('#lemonbox-fields div.zip input').mask('99999');
+
+			$('#TB_closeWindowButton').click();
+
+			update_form_html();
 
 		});
 
@@ -246,7 +257,24 @@
 			$('#dropdown-creator').append('<div class="option" data-index="' + (i + 1) + '"><input class="option-value" /><input class="option-text" /><a class="delete-option">Delete</a></div>');
 		}
 
-		*/
+
+		function update_form_html() {
+
+			var form_fields = $('#lemonbox-fields').clone();
+
+			form_fields.removeClass('edit ui-sortable');
+
+			$('#lbox-form-html').val( form_fields.html() );
+
+			return true;
+
+			$(form_fields).find('#lemonbox-fields').removeClass('edit ui-sortable');
+			$(form_fields).find('*').removeAttr('contenteditable').removeClass('focus');
+			$(form_fields).find('input[name="mode"]').remove();
+
+			
+
+		}
 
 	});
 
