@@ -1,34 +1,80 @@
 #poststuff #lbox-form-fields {
-  /*	&.postbox .inside {
-  		padding: 0;
-  	}*/
-  overflow: hidden; }
+  padding-bottom: 10x; }
+  #poststuff #lbox-form-fields.postbox .inside {
+    padding: 0; }
   #poststuff #lbox-form-fields h3.hndle span:nth-child(2) {
     padding: 6px;
     margin-left: 10px; }
 
-#lbox-fields {
-  width: 50%;
-  position: relative;
-  border: 1px solid;
+#lbox-form-builder {
+  border-top: 1px solid;
   border-color: #ddd;
-  min-height: 300px; }
+  overflow: hidden; }
+
+#lbox-fields {
+  width: 55%;
+  height: 100%;
+  position: relative;
+  min-height: 450px;
+  float: left;
+  z-index: 1;
+  background-color: #eee;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border-right: 1px solid #ddd; }
   #lbox-fields > div {
     display: block;
     padding: 15px;
     border-bottom: 1px solid;
     border-bottom-color: #eee;
     cursor: pointer; }
+    #lbox-fields > div.focus {
+      background-color: #fff;
+      border-right: 1px solid #fff;
+      margin-right: -1px;
+      border-bottom: 1px solid #ddd; }
+      #lbox-fields > div.focus * {
+        outline: 0; }
+  #lbox-fields .ui-sortable-helper {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-color: #CCC;
+    background-color: #fff; }
 
 #lbox-field-inspector {
-  width: 50%;
+  width: 45%;
   position: relative;
-  min-height: 300px; }
+  min-height: 300px;
+  float: right;
+  padding: 0 20px;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  overflow-y: auto;
+  padding-bottom: 20px; }
+  #lbox-field-inspector ul:first-of-type {
+    border-bottom: 1px solid #ddd; }
+    #lbox-field-inspector ul:first-of-type li {
+      display: inline-block;
+      padding: 4px; }
+  #lbox-field-inspector ul > li label {
+    display: block;
+    font-weight: bold;
+    padding-bottom: 4px; }
+  #lbox-field-inspector ul > li input {
+    width: 100%; }
 
 #lbox-form-field-menu {
   display: block;
-  margin-bottom: 25px;
-  padding: 15px; }
+  margin-bottom: 5px;
+  padding: 0 13px; }
+  #lbox-form-field-menu > * {
+    display: inline-block;
+    margin-right: 5px; }
+  #lbox-form-field-menu > a {
+    text-decoration: underline;
+    cursor: pointer; }
 
 /* $background-main: #fff;
 

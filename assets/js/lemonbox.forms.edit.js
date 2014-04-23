@@ -2,23 +2,19 @@
 	
 	$(document).ready(function(){
 
-		// Setup
+		// Initialize sortable functionality for form
 		$('#lbox-fields').sortable({
+			containment: 'parent',
 			stop: function( event, ui ) { update_form_html(); }
-		});
-		
-		$('#lbox-fields').disableSelection();		
+		}).disableSelection();		
 
-		$("#form-inspector").tabs();
-		$('#dropdown-creator > div').sortable();
+		// Initialize inspector menu
+		$('#lbox-field-inspector').tabs();
 
-		$('.lemonbox-fields').addClass('edit');
+		// Pre-select the first field to load the inspector
+		// $('#lbox-fields > div').addClass('focus');
 
-		$('.lemonbox-fields.edit').sortable({ items: '> li', cancel: '.lemonbox-fields li.focus *' });
-
-		$('h3.form-title').text( $('input[name="form_title"]').val() );
-		$('#form-settings .form-title').val( $('input[name="form_title"]').val() );
-
+		// Initialize 'clear form' button to reset form
 		$('#clear-fields').on( 'click', function(e) {
 			e.preventDefault;
 
@@ -27,22 +23,66 @@
 
 		});
 
-		$(document).on('click', '.lemonbox-fields.edit li', function(){
-			
-			var field_type = '';
+		// Add a new field to the form
+		$('#add-fields button').on('click', function(e){
+
+			e.preventDefault();
+
+			var field = $(this).find('> div').clone(true);
+
+			// $('#lbox-fields div.submit').after(field);
+			$('#lbox-fields').append(field);
+
+			$('#lbox-fields div.date input').mask('99/99/9999');
+			$('#lbox-fields .credit-card input[name="card_number"]').mask('9999 9999 9999 9999');
+			$('#lbox-fields div.zip input').mask('99999');
+
+			$('#TB_closeWindowButton').click();
+
+			update_form_html();
+
+		});
+
+		// $("#form-inspector").tabs();
+		// $('#dropdown-creator > div').sortable();
+
+		// $('.lemonbox-fields').addClass('edit');
+
+		// $('.lemonbox-fields.edit').sortable({ items: '> li', cancel: '.lemonbox-fields li.focus *' });
+
+		// $('h3.form-title').text( $('input[name="form_title"]').val() );
+		// $('#form-settings .form-title').val( $('input[name="form_title"]').val() );
+
+		// Actions to trigger edit options when field is selected
+		$(document).on('click', '#lbox-fields > div', function(){
+
+			var field_type = $(this).data('field-type');
 			var field = '';
+
+			var label = ($(this).find('label').length) ? $(this).find('label').text() : '';
+			var field_name = ($(this).find('input').length) ? $(this).find('input').attr('name') : '';
 			var required = ($(this).find('input,textarea,select').hasClass('required')) ? 1 : 0;
+			var placeholder_text = ($(this).find('input').length) ? $(this).find('input').attr('placeholder') : '';
 
-			$('.focus *').removeAttr('contenteditable');
+			// Remove 'fields' prefix from name
+			field_name = field_name.substring(7,field_name.length-1);
+
+			// $('.focus *').removeAttr('contenteditable');
 			$('.focus').removeClass('focus');
-			$('#field-settings .product-settings').hide();
-			$('#field-settings .general-settings').show();
-			$('#field-settings .dropdown-settings').hide();
-
-			$('#field-settings input').val('');
-
 			$(this).addClass('focus');
-			$(this).find('label').attr('contenteditable', true);
+			// $('#field-settings .product-settings').hide();
+			// $('#field-settings .general-settings').show();
+			// $('#field-settings .dropdown-settings').hide();
+
+			$('#lbox-field-inspector input').val('');
+
+			// $(this).find('label').attr('contenteditable', true);
+
+			// Update standard inspector fields
+			$('input.label').val( label );
+			$('input.field-name').val( field_name );
+			$('select.required').val( required );
+			$('input.placeholder').val( placeholder_text );
 
 			if ( $(this).hasClass('title') ) {
 
@@ -188,8 +228,10 @@
 		$('.field-action').on('click', function(e){
 
 			if ( $(this).hasClass('delete') ) {
-				$('.lemonbox-fields li.focus').remove();
-				$('#form-inspector a[href="#form-settings"]').click();
+				$('#lbox-fields > div.focus').remove();
+				//$('#form-inspector a[href="#form-settings"]').click();
+				$('#lbox-fields > div:first-child').click();
+				$('#lbox-field-inspector input').val('');
 			}
 
 		});
@@ -199,24 +241,7 @@
 		});
 
 
-		$('#add-fields button').on('click', function(e){
-
-			e.preventDefault();
-
-			var field = $(this).find('> div').clone();
-
-			// $('#lbox-fields div.submit').after(field);
-			$('#lbox-fields').append(field);
-
-			$('#lbox-fields div.date input').mask('99/99/9999');
-			$('#lbox-fields .credit-card input[name="card_number"]').mask('9999 9999 9999 9999');
-			$('#lbox-fields div.zip input').mask('99999');
-
-			$('#TB_closeWindowButton').click();
-
-			update_form_html();
-
-		});
+		
 
 		$('button.save-form').on('click', function(e){
 			e.preventDefault();
@@ -279,8 +304,6 @@
 			$(form_fields).find('#lbox-fields').removeClass('edit ui-sortable');
 			$(form_fields).find('*').removeAttr('contenteditable').removeClass('focus');
 			$(form_fields).find('input[name="mode"]').remove();
-
-			
 
 		}
 

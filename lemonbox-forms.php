@@ -373,7 +373,9 @@
 
 		if ( get_post_type() == 'lemonbox_form' ) {
 			
-			echo "<form method=\"POST\" action=\"\">";
+			$content = str_replace(array("\r\n", "\r", "\n"), "", $content);
+
+			echo "<form class=\"lbox-form\" method=\"POST\" action=\"\">";
 			echo $content;
 			echo '<button type="submit" class="btn btn-default">Submit</button>';
 			echo "</form>";
