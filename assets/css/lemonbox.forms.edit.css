@@ -1,40 +1,24 @@
 #poststuff #lbox-form-fields {
+  /*	&.postbox .inside {
+  		padding: 0;
+  	}*/
   overflow: hidden; }
-  #poststuff #lbox-form-fields.postbox .inside {
-    padding: 0; }
   #poststuff #lbox-form-fields h3.hndle span:nth-child(2) {
     padding: 6px;
     margin-left: 10px; }
 
-#lemonbox-fields {
+#lbox-fields {
   width: 50%;
   position: relative;
-  border-top: 1px solid;
-  border-right: 1px solid;
+  border: 1px solid;
   border-color: #ddd;
-  min-height: 300px;
-  float: left; }
-  #lemonbox-fields > div {
+  min-height: 300px; }
+  #lbox-fields > div {
     display: block;
     padding: 15px;
     border-bottom: 1px solid;
     border-bottom-color: #eee;
-    cursor: pointer;
-    position: relative; }
-    #lemonbox-fields > div:last {
-      border-bottom: none; }
-    #lemonbox-fields > div span.move {
-      display: none; }
-    #lemonbox-fields > div:hover span.move {
-      display: none;
-      width: 32px;
-      height: 32px;
-      background-image: url(../img/glyphicons_186_move.png);
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: 16px;
-      position: absolute;
-      right: 10px; }
+    cursor: pointer; }
 
 #lbox-field-inspector {
   width: 50%;
@@ -43,7 +27,8 @@
 
 #lbox-form-field-menu {
   display: block;
-  margin-bottom: 25px; }
+  margin-bottom: 25px;
+  padding: 15px; }
 
 /* $background-main: #fff;
 

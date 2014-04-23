@@ -3,11 +3,11 @@
 	$(document).ready(function(){
 
 		// Setup
-		$('#lemonbox-fields').sortable();
-		$('#lemonbox-fields').disableSelection();
-		$('#lbox-fields').tabs().addClass( "ui-tabs-vertical ui-helper-clearfix" );
-    	$('#lbox-fields li').removeClass( "ui-corner-top" ).addClass( "ui-corner-left" );
-
+		$('#lbox-fields').sortable({
+			stop: function( event, ui ) { update_form_html(); }
+		});
+		
+		$('#lbox-fields').disableSelection();		
 
 		$("#form-inspector").tabs();
 		$('#dropdown-creator > div').sortable();
@@ -18,6 +18,14 @@
 
 		$('h3.form-title').text( $('input[name="form_title"]').val() );
 		$('#form-settings .form-title').val( $('input[name="form_title"]').val() );
+
+		$('#clear-fields').on( 'click', function(e) {
+			e.preventDefault;
+
+			$('#lbox-fields').html('');
+			update_form_html();
+
+		});
 
 		$(document).on('click', '.lemonbox-fields.edit li', function(){
 			
@@ -197,12 +205,12 @@
 
 			var field = $(this).find('> div').clone();
 
-			// $('#lemonbox-fields div.submit').after(field);
-			$('#lemonbox-fields').append(field);
+			// $('#lbox-fields div.submit').after(field);
+			$('#lbox-fields').append(field);
 
-			$('#lemonbox-fields div.date input').mask('99/99/9999');
-			$('#lemonbox-fields .credit-card input[name="card_number"]').mask('9999 9999 9999 9999');
-			$('#lemonbox-fields div.zip input').mask('99999');
+			$('#lbox-fields div.date input').mask('99/99/9999');
+			$('#lbox-fields .credit-card input[name="card_number"]').mask('9999 9999 9999 9999');
+			$('#lbox-fields div.zip input').mask('99999');
 
 			$('#TB_closeWindowButton').click();
 
@@ -260,7 +268,7 @@
 
 		function update_form_html() {
 
-			var form_fields = $('#lemonbox-fields').clone();
+			var form_fields = $('#lbox-fields').clone();
 
 			form_fields.removeClass('edit ui-sortable');
 
@@ -268,7 +276,7 @@
 
 			return true;
 
-			$(form_fields).find('#lemonbox-fields').removeClass('edit ui-sortable');
+			$(form_fields).find('#lbox-fields').removeClass('edit ui-sortable');
 			$(form_fields).find('*').removeAttr('contenteditable').removeClass('focus');
 			$(form_fields).find('input[name="mode"]').remove();
 

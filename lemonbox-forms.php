@@ -171,13 +171,20 @@
 
 	function lbox_forms_meta_boxes() {
 		add_meta_box( 'lbox-form-fields', 'Form Fields', 'lbox_forms_meta_box_form_fields', 'lemonbox_form', 'normal', 'high' );
+		add_meta_box( 'lbox-form-confirmation-mesage', 'Confirmation Message', 'lbox_forms_meta_box_confirmation_message', 'lemonbox_form', 'normal', 'high' );
 	}
 
-	function lbox_forms_meta_box_form_fields( $post_id ) {
-		
-		global $post;
+	function lbox_forms_meta_box_form_fields( $post ) {
 
 		include plugin_dir_path( __FILE__ ) . 'templates/editor.php';
+
+	}
+
+	function lbox_forms_meta_box_confirmation_message( $post ) {
+
+		$confirmation_message = get_post_meta( $post->ID, 'confirmation_message', true );
+
+		wp_editor( $confirmation_message, 'confirmation_message', $settings = array( 'textarea_rows' => 8 ) );
 
 	}
 
@@ -303,6 +310,7 @@
 
 	function lbox_save_form( $post_id ) {
 
+		// Update the form content by saving the form fields
 		remove_action( 'save_post', 'lbox_save_form' );
 
 		if ( isset($_REQUEST['_form_fields']) ) {
@@ -318,30 +326,11 @@
 
 		add_action( 'save_post', 'lbox_save_form' );
 
-		
-		// global $wpdb;
+		// Save confirmation message
+		if ( isset($_POST['confirmation_message']) ) {
+			update_post_meta( $post_id, 'confirmation_message', $_POST['confirmation_message'] );
+		}
 
-		// if ( $_POST['form_id'] ) {
-
-		// 	$response = $wpdb->update( "{$wpdb->prefix}lemonbox_forms", array( 
-		// 		'fields' => trim($_POST['html']), 
-		// 		'form_title' => $_POST['form_title'],
-		// 		'confirmation_message' => $_POST['confirmation_message'] 
-		// 	), array( 'id' => $_POST['form_id'] ) );
-
-		// } else {
-
-		// 	$response = $wpdb->insert( "{$wpdb->prefix}lemonbox_forms", array( 
-		// 		'fields' => trim($_POST['html']), 
-		// 		'form_title' => $_POST['form_title'],
-		// 		'form_type' => 'custom',
-		// 		'form_author' => get_current_user_id(),
-		// 		'confirmation_message' => $_POST['confirmation_message']
-		// 	) );
-
-		// }
-		
-		// exit;
 	}
 
 	function lemonbox_generate_form_receipt( $message ) {
@@ -379,6 +368,20 @@
 		return 'text/html';
 	}
 
+
+	function lbox_form_filter_content( $content ) {
+
+		if ( get_post_type() == 'lemonbox_form' ) {
+			
+			echo "<form method=\"POST\" action=\"\">";
+			echo $content;
+			echo '<button type="submit" class="btn btn-default">Submit</button>';
+			echo "</form>";
+
+		}
+
+	}
+
 	add_action( 'init', 'lbox_forms' );
 	add_action( 'admin_enqueue_scripts', 'lbox_forms_admin_assets' );
 
@@ -388,6 +391,7 @@
 	add_action( 'add_meta_boxes', 'lbox_forms_meta_boxes' );
 	add_action( 'save_post', 'lbox_save_form' );
 
+	add_filter( 'the_content', 'lbox_form_filter_content', 20 );
 	// add_action( 'admin_menu', 'lemonbox_forms_settings' );
 	
 	

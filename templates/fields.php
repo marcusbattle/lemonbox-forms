@@ -2,27 +2,31 @@
 	<button>Name
 		<div class="form-group input name">
 			<label>Name</label>
-			<div class="flex">
-				<input type="text" name="fields[first_name]" placeholder="First Name" class="required" />
-				<input type="text" name="fields[last_name]" placeholder="Last Name" class="required" />
+			<div class="row">
+				<div class="col-md-4">
+				    <input type="text" class="form-control" name="fields[first_name]" placeholder="First Name" class="required" />
+				</div>
+				<div class="col-md-4">
+					<input type="text" class="form-control" name="fields[last_name]" placeholder="Last Name" class="required" />
+				</div>
 			</div>
 		</div>
 	</button>
 	<button>Email
-		<div class="input email">
+		<div class="form-group input email">
 			<label>Email</label>
-			<input type="email" name="fields[email]" />
+			<input type="email" name="fields[email]" class="form-control" />
+		</div>
+	</button>
+	<button>Text Field
+		<div class="foorm-group input">
+			<label>Label</label>
+			<input type="text" name="fields[new_field]" class="form-control" />
 		</div>
 	</button>
 	<button>Title
 		<div class="title">
 			<label>Title</label>
-		</div>
-	</button>
-	<button>Text Field
-		<div class="input">
-			<label>Label</label>
-			<input type="text" name="fields[new_field]" />
 		</div>
 	</button>
 	<button>Text Area
