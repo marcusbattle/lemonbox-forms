@@ -39,9 +39,7 @@
          </ul>
          <p><a class="field-action delete">Delete Field</a></p>
       </div>
-      <div id="more">
-         <p>More of you. less of me.</p>
-      </div>
+      <?php do_action( '' ); ?>
       <!-- <ul class="dropdown-settings" style="display: none;">
          <li>
             <h3>Drop Down Options</h3>
@@ -49,7 +47,6 @@
             <div id="dropdown-creator" class="flex"></div>
          <li>  
       </ul> -->
-      
    </div>
 </div>
 
