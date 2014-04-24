@@ -5,10 +5,10 @@
 			<div class="form-group input name">
 				<label>Name</label>
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-6">
 					    <input type="text" class="form-control" name="fields[first_name]" placeholder="First Name" class="required" />
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-6">
 						<input type="text" class="form-control" name="fields[last_name]" placeholder="Last Name" class="required" />
 					</div>
 				</div>

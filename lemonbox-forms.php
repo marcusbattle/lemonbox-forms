@@ -375,7 +375,7 @@
 			
 			$content = str_replace(array("\r\n", "\r", "\n"), "", $content);
 
-			echo "<form class=\"lbox-form\" method=\"POST\" action=\"\">";
+			echo "<form class=\"lbox-form\" method=\"post\" action=\"\">";
 			echo $content;
 			echo '<button type="submit" class="btn btn-default">Submit</button>';
 			echo "</form>";
