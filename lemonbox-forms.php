@@ -171,13 +171,16 @@
 
 	function lbox_forms_meta_boxes() {
 		add_meta_box( 'lbox-form-fields', 'Form Fields', 'lbox_forms_meta_box_form_fields', 'lemonbox_form', 'normal', 'high' );
+		add_meta_box( 'lbox-form-settings', 'Form Settings', 'lbox_forms_meta_box_form_settings', 'lemonbox_form', 'normal', 'high' );
 		add_meta_box( 'lbox-form-confirmation-mesage', 'Confirmation Message', 'lbox_forms_meta_box_confirmation_message', 'lemonbox_form', 'normal', 'high' );
 	}
 
 	function lbox_forms_meta_box_form_fields( $post ) {
-
 		include plugin_dir_path( __FILE__ ) . 'templates/editor.php';
+	}
 
+	function lbox_forms_meta_box_form_settings( $post ) {
+		include plugin_dir_path( __FILE__ ) . 'templates/settings.php';
 	}
 
 	function lbox_forms_meta_box_confirmation_message( $post ) {
@@ -214,7 +217,7 @@
 
 	}
 
-	function lbox_form_shortcode( $atts ){
+	function lbox_form_shortcode( $atts ) {
 
 		global $wpdb;
 
@@ -384,6 +387,10 @@
 
 	}
 
+	function lbox_form_fields( ) {
+		echo "great";
+	}
+
 	add_action( 'init', 'lbox_forms' );
 	add_action( 'admin_enqueue_scripts', 'lbox_forms_admin_assets' );
 
@@ -403,5 +410,5 @@
 	add_action( 'wp_ajax_lemonbox_process_form', 'lbox_process_form' );
 	add_action( 'wp_ajax_nopriv_lemonbox_process_form', 'lbox_process_form' );
 
-
+	add_action( 'lbox_form_fields', 'lbox_form_fields', 10, 2 );
 ?>

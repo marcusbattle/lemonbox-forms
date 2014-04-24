@@ -125,6 +125,7 @@
 				</select>
 			</div>
 		</button>
+		<?php do_action( 'lbox_form_fields' ); ?>
 	</div>
 	<a onclick="javascript:tb_remove()">Close</a>
 </div>
