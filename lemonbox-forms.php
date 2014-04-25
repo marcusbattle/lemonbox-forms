@@ -388,7 +388,7 @@
 	}
 
 	function lbox_form_fields( ) {
-		echo "great";
+		// config variable go here
 	}
 
 	add_action( 'init', 'lbox_forms' );
@@ -410,5 +410,5 @@
 	add_action( 'wp_ajax_lemonbox_process_form', 'lbox_process_form' );
 	add_action( 'wp_ajax_nopriv_lemonbox_process_form', 'lbox_process_form' );
 
-	add_action( 'lbox_form_fields', 'lbox_form_fields', 10, 2 );
+	add_action( 'lbox_form_fields', 'lbox_form_fields', 10 );
 ?>

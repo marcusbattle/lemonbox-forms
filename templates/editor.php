@@ -11,7 +11,6 @@
    <div id="lbox-field-inspector">
       <ul>
          <li><a href="#field-settings">Field Settings</a></li>
-         <li><a href="#more">More</a></li>
       </ul>
       <div id="field-settings">
          <ul class="general-settings">
@@ -39,7 +38,7 @@
          </ul>
          <p><a class="field-action delete">Delete Field</a></p>
       </div>
-      <?php do_action( '' ); ?>
+      <?php do_action( 'lbox_form_settings' ); ?>
       <!-- <ul class="dropdown-settings" style="display: none;">
          <li>
             <h3>Drop Down Options</h3>
