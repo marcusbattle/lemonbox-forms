@@ -9,7 +9,22 @@
 		}).disableSelection();		
 
 		// Initialize inspector menu
-		$('#lbox-field-inspector').tabs();
+		var custom_settings = null;
+
+		$('#lbox-field-inspector > div.custom-setting').each(function(){
+
+			var settings_title = $(this).data('title');
+			var settings_id = settings_title.replace(' ','-').toLowerCase();
+
+			$(this).attr( 'id', settings_id );
+
+			$('#lbox-field-inspector > ul').append( '<li><a href="#' + settings_id + '">' + settings_title + '</li>' );
+
+		});
+
+		$('#lbox-field-inspector').tabs({ 
+			active: 0
+		});
 
 		// Pre-select the first field to load the inspector
 		// $('#lbox-fields > div').addClass('focus');
@@ -39,7 +54,6 @@
 
 			$('#lbox-field-inspector > ul').append('<li><a href="' + settings_id + '"' + settings_title + '</li>');
 
-			// $('#lbox-fields div.submit').after(field);
 			$('#lbox-fields').append(field);
 
 			$('#lbox-fields div.date input').mask('99/99/9999');
@@ -49,6 +63,8 @@
 			$('#TB_closeWindowButton').click();
 
 			update_form_html();
+
+			$('#lbox-field-inspector').tabs();
 
 		});
 
@@ -74,7 +90,7 @@
 			var placeholder_text = ($(this).find('input').length) ? $(this).find('input').attr('placeholder') : '';
 
 			// Remove 'fields' prefix from name
-			field_name = field_name.substring(7,field_name.length-1);
+			field_name = (field_name.length) ? field_name.substring(7,field_name.length-1) : '';
 
 			// $('.focus *').removeAttr('contenteditable');
 			$('.focus').removeClass('focus');

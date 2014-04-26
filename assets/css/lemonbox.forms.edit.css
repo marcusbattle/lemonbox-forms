@@ -53,9 +53,10 @@
   -moz-box-sizing: border-box;
   overflow-y: auto;
   padding-bottom: 20px; }
-  #lbox-field-inspector ul:first-of-type {
+  #lbox-field-inspector > ul:first-of-type {
+    padding-top: 5px;
     border-bottom: 1px solid #ddd; }
-    #lbox-field-inspector ul:first-of-type li {
+    #lbox-field-inspector > ul:first-of-type li {
       display: inline-block;
       padding: 4px; }
   #lbox-field-inspector ul > li label {

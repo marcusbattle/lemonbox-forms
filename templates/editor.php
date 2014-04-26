@@ -38,6 +38,7 @@
          </ul>
          <p><a class="field-action delete">Delete Field</a></p>
       </div>
+      <?php do_action( 'lbox_form_settings' ); ?>
       <!-- <ul class="dropdown-settings" style="display: none;">
          <li>
             <h3>Drop Down Options</h3>

@@ -74,8 +74,9 @@
 	overflow-y: auto;
 	padding-bottom: 20px;
 
-	ul:first-of-type {
+	> ul:first-of-type {
 
+		padding-top: 5px;
 		border-bottom: 1px solid #ddd;
 
 		li {
