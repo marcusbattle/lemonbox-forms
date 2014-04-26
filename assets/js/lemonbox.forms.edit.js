@@ -28,7 +28,16 @@
 
 			e.preventDefault();
 
-			var field = $(this).find('> div').clone(true);
+			var field = $(this).find('> div:first-of-type').clone(true);
+			var settings = $(this).find('> div.settings').clone(true);
+
+			
+			var settings_title = $(settings).data('title');
+			var settings_id = settings_title.replace( ' ', '-' ).toLowerCase();
+
+			console.log( settings_id );
+
+			$('#lbox-field-inspector > ul').append('<li><a href="' + settings_id + '"' + settings_title + '</li>');
 
 			// $('#lbox-fields div.submit').after(field);
 			$('#lbox-fields').append(field);
