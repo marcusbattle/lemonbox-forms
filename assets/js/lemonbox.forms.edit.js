@@ -2,15 +2,13 @@
 	
 	$(document).ready(function(){
 
-		// Initialize sortable functionality for form
+		// Initialize sortable functionality for form fields
 		$('#lbox-fields').sortable({
 			containment: 'parent',
 			stop: function( event, ui ) { update_form_html(); }
 		}).disableSelection();		
 
 		// Initialize inspector menu
-		var custom_settings = null;
-
 		$('#lbox-field-inspector > div.custom-setting').each(function(){
 
 			var settings_title = $(this).data('title');
@@ -26,9 +24,6 @@
 			active: 0
 		});
 
-		// Pre-select the first field to load the inspector
-		// $('#lbox-fields > div').addClass('focus');
-
 		// Initialize 'clear form' button to reset form
 		$('#clear-fields').on( 'click', function(e) {
 			e.preventDefault;
@@ -43,16 +38,7 @@
 
 			e.preventDefault();
 
-			var field = $(this).find('> div:first-of-type').clone(true);
-			var settings = $(this).find('> div.settings').clone(true);
-
-			
-			var settings_title = $(settings).data('title');
-			var settings_id = settings_title.replace( ' ', '-' ).toLowerCase();
-
-			console.log( settings_id );
-
-			$('#lbox-field-inspector > ul').append('<li><a href="' + settings_id + '"' + settings_title + '</li>');
+			var field = $(this).find('> div').clone(true);
 
 			$('#lbox-fields').append(field);
 
@@ -67,6 +53,8 @@
 			$('#lbox-field-inspector').tabs();
 
 		});
+
+		// Set listener for when settings change the value
 
 		// $("#form-inspector").tabs();
 		// $('#dropdown-creator > div').sortable();
@@ -89,6 +77,9 @@
 			var required = ($(this).find('input,textarea,select').hasClass('required')) ? 1 : 0;
 			var placeholder_text = ($(this).find('input').length) ? $(this).find('input').attr('placeholder') : '';
 
+			var name_disabled = ($(this).data('disable-name')) ? $(this).data('disable-name') : false;
+			var placeholder_disabled = ($(this).data('disable-placeholder')) ? $(this).data('disable-placeholder') : false;
+
 			// Remove 'fields' prefix from name
 			field_name = (field_name.length) ? field_name.substring(7,field_name.length-1) : '';
 
@@ -105,9 +96,9 @@
 
 			// Update standard inspector fields
 			$('input.label').val( label );
-			$('input.field-name').val( field_name );
+			$('input.field-name').val( field_name ).attr('disabled',name_disabled);
 			$('select.required').val( required );
-			$('input.placeholder').val( placeholder_text );
+			$('input.placeholder').val( placeholder_text ).attr('disabled',placeholder_disabled);
 
 			if ( $(this).hasClass('title') ) {
 
@@ -168,137 +159,143 @@
 			$('#form-inspector .required').val( required );
 
 		});
-	
-		$(document).on('keyup change', '#form-inspector input, #field-settings select', function(){
+		
+		// Pre-select the first field to load the inspector
+		$('#lbox-fields > div:first-of-type').click();
+
+		$(document).on('keyup change', '#lbox-field-inspector #field-settings input', function(){
 
 			if ( $(this).hasClass('label') ) {
 				
-				$('.lemonbox-fields .focus label').text( $(this).val() );
-
-			} else if ( $(this).hasClass('placeholder') ) {
-				
-				$('.lemonbox-fields .focus').find('input,textarea').attr( 'placeholder', $(this).val() );
-
-			} else if ( $(this).hasClass('field-name') ) {
-
-				$('.lemonbox-fields .focus').find('input,textarea,select').attr( 'name', 'fields[' + $(this).val() + ']' );
-
-			} else if ( $(this).hasClass('form-title') ) {
-
-				$('h3.form-title').text( $(this).val() );
-				$('.lemonbox-fields input[name="form_title"]').val( $(this).val() );
-
-			} else if ( $(this).hasClass('product') ) {
-				
-				$('.lemonbox-fields input[name="product_id"]').val( $(this).val() );
-				$('.lemonbox-fields .product-title').text( $(this).find(':selected').text() );
-				$('.lemonbox-fields .cost span').text('$' + $(this).find(':selected').data('price') );
-				$('.lemonbox-fields input[name="price"]').val( $(this).find(':selected').data('price') );
-
-			} else if ( $(this).hasClass('max-quantity') ) {
-
-				$('.lemonbox-fields select[name="quantity"]').html('');
-				
-				var total = ($(this).val() * 1) + 1;
-				for( var x = 1; x < total; x++ ) {
-					$('.lemonbox-fields select[name="quantity"]').append('<option value="' + x + '">' + x + '</option>');
-				}
-
-			} else if ( $(this).hasClass('option-text') ) {
-
-				$('.lemonbox-fields .focus select').find('option:nth-child(' + $(this).parent().data('index') + ')').text( $(this).val() );
-
-			} else if ( $(this).hasClass('option-value') ) {
-
-				$('.lemonbox-fields .focus select').find('option:nth-child(' + $(this).parent().data('index') + ')').val( $(this).val() );
-
-			} else if ( $(this).hasClass('required') ) {
-
-				if ( $(this).val() == 1 ) $('.lemonbox-fields .focus').find('input,select,textarea').addClass('required');
-				else $('.lemonbox-fields .focus').find('input,select,textarea').removeClass('required');
-
-			} else if ( $(this).hasClass('payment-type') ) {
-				
-				$('.lemonbox-fields .focus input[name="payment_type"]').val( $(this).val() );
-
-				if ( $(this).val() == 'cash' ) {
-					$('.lemonbox-fields .focus .credit-card').hide();
-					$('.lemonbox-fields .focus .credit-card').find('.required').removeClass('required');
-				} else {
-					$('.lemonbox-fields .focus .credit-card').show();
-					$('.lemonbox-fields .focus .credit-card').find('input').addClass('required');
-				}
+				$('#lbox-fields .focus label').text( $(this).val() );
 
 			}
+			// } else if ( $(this).hasClass('placeholder') ) {
+				
+			// 	$('.lemonbox-fields .focus').find('input,textarea').attr( 'placeholder', $(this).val() );
+
+			// } else if ( $(this).hasClass('field-name') ) {
+
+			// 	$('.lemonbox-fields .focus').find('input,textarea,select').attr( 'name', 'fields[' + $(this).val() + ']' );
+
+			// } else if ( $(this).hasClass('form-title') ) {
+
+			// 	$('h3.form-title').text( $(this).val() );
+			// 	$('.lemonbox-fields input[name="form_title"]').val( $(this).val() );
+
+			// } else if ( $(this).hasClass('product') ) {
+				
+			// 	$('.lemonbox-fields input[name="product_id"]').val( $(this).val() );
+			// 	$('.lemonbox-fields .product-title').text( $(this).find(':selected').text() );
+			// 	$('.lemonbox-fields .cost span').text('$' + $(this).find(':selected').data('price') );
+			// 	$('.lemonbox-fields input[name="price"]').val( $(this).find(':selected').data('price') );
+
+			// } else if ( $(this).hasClass('max-quantity') ) {
+
+			// 	$('.lemonbox-fields select[name="quantity"]').html('');
+				
+			// 	var total = ($(this).val() * 1) + 1;
+			// 	for( var x = 1; x < total; x++ ) {
+			// 		$('.lemonbox-fields select[name="quantity"]').append('<option value="' + x + '">' + x + '</option>');
+			// 	}
+
+			// } else if ( $(this).hasClass('option-text') ) {
+
+			// 	$('.lemonbox-fields .focus select').find('option:nth-child(' + $(this).parent().data('index') + ')').text( $(this).val() );
+
+			// } else if ( $(this).hasClass('option-value') ) {
+
+			// 	$('.lemonbox-fields .focus select').find('option:nth-child(' + $(this).parent().data('index') + ')').val( $(this).val() );
+
+			// } else if ( $(this).hasClass('required') ) {
+
+			// 	if ( $(this).val() == 1 ) $('.lemonbox-fields .focus').find('input,select,textarea').addClass('required');
+			// 	else $('.lemonbox-fields .focus').find('input,select,textarea').removeClass('required');
+
+			// } else if ( $(this).hasClass('payment-type') ) {
+				
+			// 	$('.lemonbox-fields .focus input[name="payment_type"]').val( $(this).val() );
+
+			// 	if ( $(this).val() == 'cash' ) {
+			// 		$('.lemonbox-fields .focus .credit-card').hide();
+			// 		$('.lemonbox-fields .focus .credit-card').find('.required').removeClass('required');
+			// 	} else {
+			// 		$('.lemonbox-fields .focus .credit-card').show();
+			// 		$('.lemonbox-fields .focus .credit-card').find('input').addClass('required');
+			// 	}
+
+			// }
+
+			update_form_html();
 
 		});
 
-		$('.form-action').on('click', function(e){
+		// $('.form-action').on('click', function(e){
 
-			$('.form-action.active').removeClass('active');
-			$(this).addClass('active');
+		// 	$('.form-action.active').removeClass('active');
+		// 	$(this).addClass('active');
 
-			if ( $(this).hasClass('preview') ) {
+		// 	if ( $(this).hasClass('preview') ) {
 
-				$('.lemonbox-fields').addClass('preview').removeClass('edit');
+		// 		$('.lemonbox-fields').addClass('preview').removeClass('edit');
 
-			} else if ( $(this).hasClass('edit') ) {
+		// 	} else if ( $(this).hasClass('edit') ) {
 
-				$('.lemonbox-fields').addClass('edit').removeClass('preview');
+		// 		$('.lemonbox-fields').addClass('edit').removeClass('preview');
 
-			}
+		// 	}
 
-		});
+		// });
 
 		$('.field-action').on('click', function(e){
 
 			if ( $(this).hasClass('delete') ) {
 				$('#lbox-fields > div.focus').remove();
 				//$('#form-inspector a[href="#form-settings"]').click();
-				$('#lbox-fields > div:first-child').click();
+				$('#lbox-fields > div:first-of-type').click();
 				$('#lbox-field-inspector input').val('');
 			}
 
 		});
 
-		$('.lemonbox-fields.edit button[type="submit"]').on('click', function(e){
-			e.preventDefault();
-		});
+		// $('.lemonbox-fields.edit button[type="submit"]').on('click', function(e){
+		// 	e.preventDefault();
+		// });
 
 
 		
 
-		$('button.save-form').on('click', function(e){
-			e.preventDefault();
+		// $('button.save-form').on('click', function(e){
+		// 	e.preventDefault();
 
-			var form_fields = $('.lemonbox-fields').parent().clone();
-			$(form_fields).find('.lemonbox-fields').removeClass('edit ui-sortable');
-			$(form_fields).find('*').removeAttr('contenteditable').removeClass('focus');
-			$(form_fields).find('input[name="mode"]').remove();
+		// 	var form_fields = $('.lemonbox-fields').parent().clone();
+		// 	$(form_fields).find('.lemonbox-fields').removeClass('edit ui-sortable');
+		// 	$(form_fields).find('*').removeAttr('contenteditable').removeClass('focus');
+		// 	$(form_fields).find('input[name="mode"]').remove();
 
-			var button = $(this);
-			var button_text = $(this).text();
+		// 	var button = $(this);
+		// 	var button_text = $(this).text();
 
-			$(this).attr('disabled','true').text('...');
+		// 	$(this).attr('disabled','true').text('...');
 
-			$.ajax({
-				type: 'POST',
-			  	url: lemonbox.ajaxurl,
-			  	data: {
-			  		action: 'lemonbox_save_form',
-			  		html: $(form_fields).html(),
-			  		form_id: $(this).data('form-id'),
-			  		confirmation_message: $('#confirmation-message').val(),
-			  		form_title: $('.lemonbox-fields input[name="form_title"]').val(),
-			  		best: 'one in town'
-			  	}
-			}).done(function( data ) {
-				$(button).text(button_text).removeAttr('disabled');
+		// 	$.ajax({
+		// 		type: 'POST',
+		// 	  	url: lemonbox.ajaxurl,
+		// 	  	data: {
+		// 	  		action: 'lemonbox_save_form',
+		// 	  		html: $(form_fields).html(),
+		// 	  		form_id: $(this).data('form-id'),
+		// 	  		confirmation_message: $('#confirmation-message').val(),
+		// 	  		form_title: $('.lemonbox-fields input[name="form_title"]').val(),
+		// 	  		best: 'one in town'
+		// 	  	}
+		// 	}).done(function( data ) {
+		// 		$(button).text(button_text).removeAttr('disabled');
 
-				alert('Done!');
-			});
+		// 		alert('Done!');
+		// 	});
 
-		});
+		// });
 
 		$('.add-option').on('click', function(){
 			$('.lemonbox-fields .focus select').append('<option></option>');
@@ -316,21 +313,27 @@
 		}
 
 
-		function update_form_html() {
+		window.update_form_html = function update_form_html() {
 
 			var form_fields = $('#lbox-fields').clone();
 
-			form_fields.removeClass('edit ui-sortable');
+			form_fields.removeClass('ui-sortable');
+			form_fields.find('> div').removeClass('focus');
 
 			$('#lbox-form-html').val( form_fields.html() );
+
+			// console.log( 'dom changed' );
 
 			return true;
 
 			$(form_fields).find('#lbox-fields').removeClass('edit ui-sortable');
-			$(form_fields).find('*').removeAttr('contenteditable').removeClass('focus');
+			
 			$(form_fields).find('input[name="mode"]').remove();
 
 		}
+
+		// Populate the html field
+		update_form_html();
 
 	});
 
