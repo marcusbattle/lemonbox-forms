@@ -375,15 +375,19 @@
 	function lbox_form_filter_content( $content ) {
 
 		if ( get_post_type() == 'lemonbox_form' ) {
-			
-			$content = str_replace(array("\r\n", "\r", "\n"), "", $content);
+
+			remove_filter( 'the_content', 'wpautop' );
 
 			echo "<form class=\"lbox-form\" method=\"post\" action=\"\">";
 			echo $content;
 			echo '<button type="submit" class="btn btn-default">Submit</button>';
 			echo "</form>";
 
+			return false;
+
 		}
+
+		return $content;
 
 	}
 
@@ -400,7 +404,7 @@
 	add_action( 'add_meta_boxes', 'lbox_forms_meta_boxes' );
 	add_action( 'save_post', 'lbox_save_form' );
 
-	add_filter( 'the_content', 'lbox_form_filter_content', 20 );
+	add_filter( 'the_content', 'lbox_form_filter_content', 0 );
 	// add_action( 'admin_menu', 'lemonbox_forms_settings' );
 	
 	
