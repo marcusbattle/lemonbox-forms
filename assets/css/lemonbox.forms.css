@@ -1,3 +1,9 @@
 form.lbox-form {
   margin: 0 auto;
-  max-width: 600px; }
+  max-width: 600px;
+  border: 3px solid #ddd;
+  border-radius: 4px;
+  padding: 10px; }
+
+.lbox-form .field > .row:not(:first-of-type) {
+  margin-top: 15px; }

@@ -10,7 +10,25 @@
 	License: DO NOT STEAL
 	*/
 
-	
+	function lbox_forms_install() {
+
+		// Create entries table
+		$table_name = $wpdb->prefix . "lbox_forms_entries";
+
+		$sql = "CREATE TABLE $table_name (
+			id mediumint(11) NOT NULL AUTO_INCREMENT,
+			form_id mediumint(11) NOT NULL,
+			entry text,
+			user_id mediumint(11) DEFAULT 0,
+			product_id mediumint(11),
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+			UNIQUE KEY id (id)
+		);";
+		
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta($sql);
+
+	}
 
 	function load_lemonbox_forms_assets() {
 		wp_enqueue_script( 'jquery-mask', plugin_dir_url( __FILE__ ) . '/assets/js/jquery.maskedinput.min.js', array('jquery') );
@@ -98,24 +116,10 @@
 		// require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 		// dbDelta($sql);
 
-
-		// // create entries table
-		// $table_name = $wpdb->prefix . "lemonbox_entries";
-
-		// $sql = "CREATE TABLE $table_name (
-		// 	id mediumint(11) NOT NULL AUTO_INCREMENT,
-		// 	form_id mediumint(11) NOT NULL,
-		// 	entry text,
-		// 	user_id mediumint(11) DEFAULT 0,
-		// 	product_id mediumint(11),
-		// 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-		// 	UNIQUE KEY id (id)
-		// );";
-		
-		// require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-		// dbDelta($sql);
-
 		add_thickbox(); // Makes sure that ThickBox support is loaded
+
+
+		do_action('lbox_process_form');
 
 	}
 
@@ -243,72 +247,81 @@
 	}
 
 	function lbox_process_form() {
-		
-		global $wpdb;
+	
+		if( isset($_POST['fields']) ) {
 
-		if ( isset($_POST) ) {
-
-			extract( $_POST );
-
-			$site_name = get_bloginfo();
-			$admin_email = get_bloginfo('admin_email');
-
-			$form = lemonbox_get_form( $form_id );
-			$mode = isset($_POST['mode']) ? $_POST['mode'] : 'live';
-
-			if ( isset($_POST['fields']) ) extract( $_POST['fields'] );
-
-			// Charge if product is present
-			if ( isset($product_id) ) {
-				
-				// Set name for charge if available
-				if ($first_name) $_POST['name'] = $first_name . ' ' . $last_name;
-
-				$response = lemonbox_post_payments();
-
-				if( !$response['success'] ) {
-					echo json_encode( array( 'success' => false, 'msg' => $response->msg ) );
-					exit;
-				}
-
-			}
-
-			// E-mail receipt
-			$email_to = isset($email) ? $email : '';
-			$form_title = isset($form_title) ? $form_title : 'Receipt for your entry';
-
-			$headers[] = "From: $site_name <$admin_email>";
-			$headers[] = "Reply-To: $site_name <$admin_email>";
-			$headers[] = "BCC: $site_name <$admin_email>";
-
-			add_filter( 'wp_mail_content_type', 'set_html_content_type' );
-			wp_mail( $email_to, $form_title, lemonbox_generate_form_receipt( $form->confirmation_message ), $headers );
-			remove_filter( 'wp_mail_content_type', 'set_html_content_type' );
-
-			$data = array(
-				'form_id' => $_POST['form_id'],
-				'entry' => isset($_POST['fields']) ? serialize($_POST['fields']) : '',
-				'user_id' => get_current_user_id(),
-				'product_id' => isset( $product_id ) ? $product_id : 0
-			);
-
-			if ( $mode != 'preview' ) {
-			
-				$wpdb->insert( "{$wpdb->prefix}lemonbox_entries", $data );
-				$msg = isset($response) ? $response['msg'] : $form->confirmation_message;
-				echo json_encode( array( 'success' => true, 'msg' => $msg ) );
-				exit;
-
-			} else {
-
-				echo json_encode( array( 'success' => false, 'msg' => 'There was a problem processing your request' ) );
-				exit;
-
-			}
+			echo "stroking";
+			exit;
 
 		}
 
-		exit;
+		
+
+		// global $wpdb;
+
+		// if ( isset($_POST) ) {
+
+		// 	extract( $_POST );
+
+		// 	$site_name = get_bloginfo();
+		// 	$admin_email = get_bloginfo('admin_email');
+
+		// 	$form = lemonbox_get_form( $form_id );
+		// 	$mode = isset($_POST['mode']) ? $_POST['mode'] : 'live';
+
+		// 	if ( isset($_POST['fields']) ) extract( $_POST['fields'] );
+
+		// 	// Charge if product is present
+		// 	if ( isset($product_id) ) {
+				
+		// 		// Set name for charge if available
+		// 		if ($first_name) $_POST['name'] = $first_name . ' ' . $last_name;
+
+		// 		$response = lemonbox_post_payments();
+
+		// 		if( !$response['success'] ) {
+		// 			echo json_encode( array( 'success' => false, 'msg' => $response->msg ) );
+		// 			exit;
+		// 		}
+
+		// 	}
+
+		// 	// E-mail receipt
+		// 	$email_to = isset($email) ? $email : '';
+		// 	$form_title = isset($form_title) ? $form_title : 'Receipt for your entry';
+
+		// 	$headers[] = "From: $site_name <$admin_email>";
+		// 	$headers[] = "Reply-To: $site_name <$admin_email>";
+		// 	$headers[] = "BCC: $site_name <$admin_email>";
+
+		// 	add_filter( 'wp_mail_content_type', 'set_html_content_type' );
+		// 	wp_mail( $email_to, $form_title, lemonbox_generate_form_receipt( $form->confirmation_message ), $headers );
+		// 	remove_filter( 'wp_mail_content_type', 'set_html_content_type' );
+
+		// 	$data = array(
+		// 		'form_id' => $_POST['form_id'],
+		// 		'entry' => isset($_POST['fields']) ? serialize($_POST['fields']) : '',
+		// 		'user_id' => get_current_user_id(),
+		// 		'product_id' => isset( $product_id ) ? $product_id : 0
+		// 	);
+
+		// 	if ( $mode != 'preview' ) {
+			
+		// 		$wpdb->insert( "{$wpdb->prefix}lemonbox_entries", $data );
+		// 		$msg = isset($response) ? $response['msg'] : $form->confirmation_message;
+		// 		echo json_encode( array( 'success' => true, 'msg' => $msg ) );
+		// 		exit;
+
+		// 	} else {
+
+		// 		echo json_encode( array( 'success' => false, 'msg' => 'There was a problem processing your request' ) );
+		// 		exit;
+
+		// 	}
+
+		// }
+
+		// exit;
 	}
 
 	function lbox_save_form( $post_id ) {
@@ -395,6 +408,8 @@
 		// config variable go here
 	}
 
+	register_activation_hook( __FILE__, 'lbox_forms_install' );
+
 	add_action( 'init', 'lbox_forms' );
 	add_action( 'admin_enqueue_scripts', 'lbox_forms_admin_assets' );
 
@@ -411,8 +426,9 @@
 	add_action( 'wp_enqueue_scripts', 'load_lemonbox_forms_assets' );
 	add_shortcode( 'lemonbox_form', 'lbox_form_shortcode' );
 
-	add_action( 'wp_ajax_lemonbox_process_form', 'lbox_process_form' );
-	add_action( 'wp_ajax_nopriv_lemonbox_process_form', 'lbox_process_form' );
+	// add_action( 'wp_ajax_lemonbox_process_form', 'lbox_process_form' );
+	// add_action( 'wp_ajax_nopriv_lemonbox_process_form', 'lbox_process_form' );
 
+	add_action( 'lbox_process_form', 'lbox_process_form', 10 );
 	add_action( 'lbox_form_fields', 'lbox_form_fields', 10 );
 ?>
