@@ -12,6 +12,8 @@
 
 	function lbox_forms_install() {
 
+		global $wpdb;
+
 		// Create entries table
 		$table_name = $wpdb->prefix . "lbox_forms_entries";
 
@@ -20,7 +22,6 @@
 			form_id mediumint(11) NOT NULL,
 			entry text,
 			user_id mediumint(11) DEFAULT 0,
-			product_id mediumint(11),
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
 			UNIQUE KEY id (id)
 		);";
@@ -247,13 +248,39 @@
 	}
 
 	function lbox_process_form() {
-	
-		if( isset($_POST['fields']) ) {
+		
+		@session_start();
 
-			echo "stroking";
-			exit;
+		global $wpdb, $post;
+
+		$nonce = isset($_REQUEST['_wpnonce_lbox_form']) ? $_REQUEST['_wpnonce_lbox_form'] : '';
+		
+		if ( $nonce_verified = wp_verify_nonce( $nonce, 'submit_form' ) ) {
+
+			if ( $nonce_verified == 1 ) {
+
+				extract( $_POST );
+
+				$data = array(
+					'form_id' => $form_id,
+					'entry' => isset($fields) ? json_encode($fields) : '',
+					'user_id' => get_current_user_id()
+				);
+
+				$wpdb->insert( "{$wpdb->prefix}lbox_forms_entries", $data );
+
+				return $wpdb->insert_id;
+
+			}
 
 		}
+
+		// if( isset($_POST['fields']) &&  ) {
+
+		// 	echo "stroking";
+		// 	exit;
+
+		// }
 
 		
 
@@ -387,12 +414,16 @@
 
 	function lbox_form_filter_content( $content ) {
 
+		global $post;
+
 		if ( get_post_type() == 'lemonbox_form' ) {
 
 			remove_filter( 'the_content', 'wpautop' );
 
 			echo "<form class=\"lbox-form\" method=\"post\" action=\"\">";
 			echo $content;
+			echo '<input type="hidden" name="form_id" value="' . $post->ID . '" />';
+			wp_nonce_field( 'submit_form', '_wpnonce_lbox_form', true );
 			echo '<button type="submit" class="btn btn-default">Submit</button>';
 			echo "</form>";
 
@@ -406,6 +437,12 @@
 
 	function lbox_form_fields( ) {
 		// config variable go here
+	}
+
+	function lbox_forms_nonce_life() {
+		
+		return 10 * 60; // 10 minutes
+
 	}
 
 	register_activation_hook( __FILE__, 'lbox_forms_install' );
@@ -429,6 +466,9 @@
 	// add_action( 'wp_ajax_lemonbox_process_form', 'lbox_process_form' );
 	// add_action( 'wp_ajax_nopriv_lemonbox_process_form', 'lbox_process_form' );
 
+	add_filter( 'nonce_life', 'lbox_forms_nonce_life' );
+
 	add_action( 'lbox_process_form', 'lbox_process_form', 10 );
 	add_action( 'lbox_form_fields', 'lbox_form_fields', 10 );
+
 ?>
