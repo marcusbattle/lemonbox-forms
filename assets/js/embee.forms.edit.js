@@ -69,8 +69,8 @@
 		// Actions to trigger edit options when field is selected
 		$(document).on('click', '#lbox-fields > div', function(){
 
-			var field_type = $(this).data('field-type');
-			var field = '';
+			var field = $(this);
+			var field_type = field.data('field-type');
 
 			var label = ($(this).find('label').length) ? $(this).find('label').text() : '';
 			var field_name = ($(this).find('input').length) ? $(this).find('input').attr('name') : '';
@@ -88,7 +88,7 @@
 			$(this).addClass('focus');
 			// $('#field-settings .product-settings').hide();
 			// $('#field-settings .general-settings').show();
-			// $('#field-settings .dropdown-settings').hide();
+			$('#field-settings .dropdown-settings').hide();
 
 			$('#lbox-field-inspector input').val('');
 
@@ -103,25 +103,29 @@
 			if ( $(this).hasClass('title') ) {
 
 				field_type = 'title';
-				$(this).find('h2').attr('contenteditable', true);
+				// $(this).find('h2').attr('contenteditable', true);
 
 			} else if ( $(this).hasClass('text') ) {
 
 				field_type = 'text';
-				$(this).find('p').attr('contenteditable', true);
+				// $(this).find('p').attr('contenteditable', true);
 				$('#field-settings .general-settings').hide();
 
-			} else if ( $(this).hasClass('dropdown') ) {
+			} else if ( field_type == 'dropdown' ) {
 
-				field_type = 'dropdown';
-				$(this).find('label').attr('contenteditable', true);
+				var options = '';
+
 				$('#field-settings .dropdown-settings').show();
 
-				$('#dropdown-creator').html('');
+				field.find('option').each(function( index, value ){
 
-				$(this).find('select option').each(function( i, v ){
-					$('#dropdown-creator').append('<div class="option" data-index="' + (i + 1) + '"><input class="option-value" value="' + $(this).val() + '" /><input class="option-text" value="' + $(this).text() + '" /><a class="delete-option">Delete</a></div>');
+					if (( $(this).val() !== '' ) && ( $(this).val() !== '--' )) {
+						options += $(this).text() + ':' + $(this).val() + '\n';
+					}
+
 				});
+
+				$('.dropdown-settings textarea').val( options );
 
 			} else if ( $(this).hasClass('textarea') ) {
 
@@ -163,13 +167,49 @@
 		// Pre-select the first field to load the inspector
 		$('#lbox-fields > div:first-of-type').click();
 
-		$(document).on('keyup change', '#lbox-field-inspector #field-settings input', function(){
+		$(document).on('keyup change', '#lbox-field-inspector #field-settings input,textarea,select', function(){
+
+			var edit_field = $(this);
+			var related_to = edit_field.data('rel');
+			var value = edit_field.val();
 
 			if ( $(this).hasClass('label') ) {
 				
 				$('#lbox-fields .focus label').text( $(this).val() );
 
 			}
+
+			if ( related_to == 'dropdown' ) {
+
+				var options = value.split(/\n/);
+				var select = $('#lbox-fields .focus select');
+				var is_multiple = select.attr('multiple');
+
+				if ( !is_multiple )
+					select.html('<option>--</option>');
+
+				$(options).each(function( index, value ){
+					
+					var option = value.split(':');
+
+					if (( option[1] !== undefined ) && option[1] && option[0] )
+						select.append('<option value="' + option[1] + '">' + option[0] + '</option>');
+
+				});
+
+			}
+
+			if ( related_to == 'format' ) {
+				
+				var select = $('#lbox-fields .focus select');
+
+				if ( value == 'multiple' ) 
+					select.attr( value, value );
+				else 
+					select.removeAttr( 'multiple' );
+
+			}
+
 			// } else if ( $(this).hasClass('placeholder') ) {
 				
 			// 	$('.lemonbox-fields .focus').find('input,textarea').attr( 'placeholder', $(this).val() );

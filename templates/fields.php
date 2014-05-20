@@ -35,21 +35,16 @@
 				</div>
 			</div>
 		</button>
-		<button>Title
-			<div class="title">
-				<label>Title</label>
-			</div>
-		</button>
 		<button>Text Area
-			<div class="input">
+			<div class="form-group input">
 				<label>Label</label>
-				<textarea name="fields[new_field]"></textarea>
+				<textarea name="fields[text_area]" class="form-control"></textarea>
 			</div>
 		</button>
 		<button>Dropdown
-			<div class="select dropdown">
+			<div class="form-group" data-field-type="dropdown">
 				<label>Dropdown</label>
-				<select name="fields[dropdown]">
+				<select name="fields[dropdown]" class="form-control">
 					<option value=""></option>
 				</select>
 			</div>
@@ -57,7 +52,7 @@
 		<button>Date
 			<div class="input date">
 				<label>Date</label>
-				<input type="text" name="fields[date]" />
+				<input type="text" name="fields[date]" class="form-control" />
 			</div>
 		</button>
 		<button>Paragraph
@@ -69,7 +64,7 @@
 			State
 			<div class="dropdown state">
 				<label>State</label>
-				<select name="fields[state]"> 
+				<select name="fields[state]" class="form-control"> 
 					<option value="" selected="selected">Select a State</option> 
 					<option value="AL">Alabama</option> 
 					<option value="AK">Alaska</option> 

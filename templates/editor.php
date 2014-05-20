@@ -36,6 +36,19 @@
                </select>
             </li>
          </ul>
+         <ul class="dropdown-settings" style="display: none;">
+            <li>
+               <label>Dropdown Options</label>
+               <textarea placeholder="option:value" style="width: 100%;" rows="6" data-rel="dropdown"></textarea>
+            </li>
+            <li>
+               <label>Dropdown Format</label>
+               <select data-rel="format">
+                  <option value="dropdown">Dropdown</option>
+                  <option value="multiple">Multiple</option>
+               </select>
+            </li>
+         </ul>
          <p><a class="field-action delete">Delete Field</a></p>
       </div>
       <?php do_action( 'lbox_form_settings' ); ?>
