@@ -153,7 +153,7 @@
 	function lbox_forms_slug_rewrite( $permalink, $post, $leavename ) {
 		
 	    if ( 'lemonbox_form' == $post->post_type && 'publish' == $post->post_status && !is_admin() ) {
-	     	$permalink = str_replace( '/forms/', '/', $permalink );
+	     	// $permalink = str_replace( '/forms/', '/', $permalink );
 	    }
 	 
 	    return $permalink;

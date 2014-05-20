@@ -6,7 +6,7 @@
 
 <div id="lbox-form-builder">
    <div id="lbox-fields">
-      <?php echo $post->post_content ?>
+      <?php echo get_post_meta( $post->ID, '_form_fields', true ); ?>
    </div>
    <div id="lbox-field-inspector">
       <ul>
@@ -52,13 +52,6 @@
          <p><a class="field-action delete">Delete Field</a></p>
       </div>
       <?php do_action( 'lbox_form_settings' ); ?>
-      <!-- <ul class="dropdown-settings" style="display: none;">
-         <li>
-            <h3>Drop Down Options</h3>
-            <a class="add-option">Add Option</a>
-            <div id="dropdown-creator" class="flex"></div>
-         <li>  
-      </ul> -->
    </div>
 </div>
 
