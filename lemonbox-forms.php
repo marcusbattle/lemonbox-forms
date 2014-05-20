@@ -43,7 +43,7 @@
 		wp_register_style( 'lbox-forms-edit-css', plugin_dir_url( __FILE__ ) . '/assets/css/lemonbox.forms.edit.css' );
         wp_enqueue_style( 'lbox-forms-edit-css' );
 
-        wp_register_style( 'lbox-forms-css', plugin_dir_url( __FILE__ ) . '/assets/css/lemonbox.forms.css' );
+        wp_register_style( 'embee-forms', plugin_dir_url( __FILE__ ) . '/assets/css/embee.forms.css' );
         // wp_enqueue_style( 'lbox-forms-css' );
 
         wp_localize_script( 'lbox-forms-edit-js', 'lemonbox', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
@@ -56,8 +56,8 @@
 		wp_enqueue_script( 'jquery-mask', plugin_dir_url( __FILE__ ) . '/assets/js/jquery.maskedinput.min.js', array('jquery') );
 		wp_enqueue_script( 'lbox-forms-js', plugin_dir_url( __FILE__ ) . '/assets/js/lemonbox.forms.js', array('jquery-mask') );
 
-		wp_register_style( 'lbox-forms-css', plugin_dir_url( __FILE__ ) . '/assets/css/lemonbox.forms.css' );
-        wp_enqueue_style( 'lbox-forms-css' );
+		wp_register_style( 'embee-forms', plugin_dir_url( __FILE__ ) . '/assets/css/embee.forms.css' );
+        wp_enqueue_style( 'embee-forms' );
 
 		wp_localize_script( 'lbox-forms-js', 'lemonbox', array( 'ajaxurl' => admin_url( 'admin-ajax.php' ) ) );
 	}
@@ -108,7 +108,7 @@
 			'description'   => 'Holds our forms and form specific data',
 			'public'        => true,
 			'menu_position' => 31,
-			'supports'      => array( 'title', 'thumbnail' ),
+			'supports'      => array( 'title', 'thumbnail', 'editor' ),
 			'has_archive'   => false,
 			'show_in_nav_menus' => true,
 			'rewrite' 			=> array( 'slug' => 'forms' ),
@@ -390,21 +390,10 @@
 
 	function lbox_save_form( $post_id ) {
 
-		// Update the form content by saving the form fields
-		remove_action( 'save_post', 'lbox_save_form' );
-
-		if ( isset($_REQUEST['_form_fields']) ) {
-
-			$form = array(
-			      'ID' => $post_id,
-			      'post_content' => $_REQUEST['_form_fields']
-			);
-
-			$updated = wp_update_post( $form );
-
+		// Save confirmation message
+		if ( isset($_POST['_form_fields']) ) {
+			update_post_meta( $post_id, '_form_fields', $_POST['_form_fields'] );
 		}
-
-		add_action( 'save_post', 'lbox_save_form' );
 
 		// Save confirmation message
 		if ( isset($_POST['confirmation_message']) ) {
@@ -430,14 +419,14 @@
 
 			remove_filter( 'the_content', 'wpautop' );
 
-			echo "<form class=\"lbox-form\" method=\"post\" action=\"\">";
-			echo $content;
-			echo '<input type="hidden" name="form_id" value="' . $post->ID . '" />';
-			wp_nonce_field( 'submit_form', '_wpnonce_lbox_form', true );
-			echo '<button type="submit" class="btn btn-default">Submit</button>';
-			echo "</form>";
+			$form = "<form class=\"lbox-form\" method=\"post\" action=\"\">";
+			$form .= get_post_meta( $post->ID, '_form_fields', true );
+			$form .= '<input type="hidden" name="form_id" value="' . $post->ID . '" />';
+			$form .= wp_nonce_field( 'submit_form', '_wpnonce_lbox_form', true );
+			$form .= '<button type="submit" class="btn btn-default">Submit</button>';
+			$form .= "</form>";
 
-			return false;
+			return $content . $form;
 
 		}
 
