@@ -148,41 +148,6 @@
 
 	}
 
-
-	// Remove the slug from published post permalinks. Only affect our CPT though.
-	function lbox_forms_slug_rewrite( $permalink, $post, $leavename ) {
-		
-	    if ( 'lemonbox_form' == $post->post_type && 'publish' == $post->post_status && !is_admin() ) {
-	     	// $permalink = str_replace( '/forms/', '/', $permalink );
-	    }
-	 
-	    return $permalink;
-
-	}
-
-	function lbox_forms_query( $query ) {
-
-        if( $query->is_main_query() && !$query->get('post_type') ) { 
-
-            $post_name = $query->get('pagename'); 
-            $page = get_page_by_path( $post_name, OBJECT, 'lemonbox_form' );
-            $post_type = ($page) ? $page->post_type : '';
-
-            if ( $post_type == 'lemonbox_form' ) {	
-
-	            $query->set('lemonbox_form', $post_name); 
-	            $query->set('post_type', $post_type); 
-	            $query->is_single = true; 
-	            $query->is_page = false; 
-
-	        }	
-
-        } 
-
-        return $query;
-
-	}
-
 	function lbox_forms_meta_boxes() {
 		add_meta_box( 'lbox-form-fields', 'Form Fields', 'lbox_forms_meta_box_form_fields', 'lemonbox_form', 'normal', 'high' );
 		add_meta_box( 'lbox-form-settings', 'Form Settings', 'lbox_forms_meta_box_form_settings', 'lemonbox_form', 'normal', 'high' );
@@ -447,9 +412,6 @@
 	register_activation_hook( __FILE__, 'lbox_forms_install' );
 
 	add_action( 'init', 'lbox_forms' );
-
-	add_filter( 'post_type_link', 'lbox_forms_slug_rewrite', 10, 3 );
-	add_action( 'pre_get_posts', 'lbox_forms_query' );
 
 	add_action( 'add_meta_boxes', 'lbox_forms_meta_boxes' );
 	add_action( 'save_post', 'lbox_save_form' );
